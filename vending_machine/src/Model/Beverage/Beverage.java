@@ -1,4 +1,4 @@
-package beverage;
+package Model.Beverage;
 
 // Beverege Class
 public abstract class Beverage {

@@ -1,6 +1,4 @@
-package GUI;
-
-import javax.swing.*;
+package View;
 
 public class Main_Page {
 

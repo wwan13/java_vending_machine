@@ -1,4 +1,4 @@
-package beverage;
+package Model.Beverage;
 
 // Premium_Coffee Class
 public class Premium_Coffee extends Beverage {

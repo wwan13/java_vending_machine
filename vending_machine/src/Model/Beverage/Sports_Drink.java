@@ -1,4 +1,4 @@
-package beverage;
+package Model.Beverage;
 
 // Sports_Drink Class
 public class Sports_Drink extends Beverage {
