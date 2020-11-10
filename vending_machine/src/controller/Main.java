@@ -1,4 +1,4 @@
-package sample;
+package controller;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -10,8 +10,8 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
-        primaryStage.setTitle("Hello World");
+        Parent root = FXMLLoader.load(getClass().getResource("../view/sample.fxml"));
+        primaryStage.setTitle("20194059 김태완");
         primaryStage.setScene(new Scene(root, 300, 275));
         primaryStage.show();
     }
