@@ -28,8 +28,9 @@ public class MainUI_Controller {
         }
     }
 
+    // 재고가 남아있는지 아닌지 확인
     public boolean get_state(LinkedList<Beverage> beverage) {
-        if ( beverage == null ) {
+        if ( beverage.size() == 0 ) {
             return true;
         }
         else {
@@ -37,10 +38,12 @@ public class MainUI_Controller {
         }
     }
 
-
+    // 판매 버튼이 눌렸을때
     public void sale_btn_clicked(LinkedList<Beverage> beverage) {
+        // 판매 가능이면
         if ( get_state(beverage)==true ) {
-            beverage.removeLast();
+            beverage.removeLast(); // 재고 하나 삭제
+            System.out.println(beverage.size()+ "개 남음");
         }
         else {
             System.out.println("재고 부족");
