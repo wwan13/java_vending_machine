@@ -37,7 +37,7 @@ public class Client {
                     String message = new String( buffer, 0, length, "UTF-8" );
 
                     // 모든 클라이언트에게 메세지 전송
-                    for( Client client : Main.clients ) {
+                    for( Client client : Server_Controller.clients ) {
                         client.send(message);
                     }
 
@@ -46,7 +46,7 @@ public class Client {
                         System.out.println("[ 메세지 수신 실패 ]"
                                             + socket.getRemoteSocketAddress()               // 소켓 번호
                                             + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
-                        Main.clients.remove(Client.this);
+                        Server_Controller.clients.remove(Client.this);
                         socket.close();
                     } catch (Exception e2) {
                         e2.printStackTrace();
@@ -54,7 +54,7 @@ public class Client {
                 }
             }
         };
-        Main.threadpool.submit(thread);
+        Server_Controller.threadPool.submit(thread);
     }
 
     // 클라이언트로 메세지를 보내는 메소드
@@ -73,7 +73,7 @@ public class Client {
                         System.out.println("[ 메세지 수신 실패 ]"
                                             + socket.getRemoteSocketAddress()               // 소켓 번호
                                             + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
-                        Main.clients.remove(Client.this);
+                        Server_Controller.clients.remove(Client.this);
                         socket.close();
                     } catch (Exception e2) {
                         e2.printStackTrace();
