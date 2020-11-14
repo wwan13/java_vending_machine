@@ -1,8 +1,16 @@
 package server;
 
+import javafx.application.Platform;
+import javafx.event.ActionEvent;
+import javafx.fxml.FXML;
+import javafx.scene.control.Button;
+import javafx.scene.control.TextArea;
+
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
@@ -13,6 +21,9 @@ public class Server_Controller {
     public static Vector<Client> clients = new Vector<Client>();
 
     ServerSocket serverSocket;
+
+    String IP = "127.0.0.1";
+    int port = 8001;
 
     public void startServer(String IP, int port) {
         try {
@@ -54,8 +65,45 @@ public class Server_Controller {
                 client.socket.close();
                 iterator.remove();
             }
+
+            if ( serverSocket != null && !serverSocket.isClosed() ) {
+                serverSocket.close();
+            }
+            if ( threadPool != null && !threadPool.isShutdown() ) {
+                threadPool.shutdown();
+            }
+
         } catch ( Exception e ) {
             e.printStackTrace();
+        }
+    }
+
+
+    @FXML
+    public Button serverBtn;
+    public TextArea textArea;
+
+    @FXML
+    public void serverOnOff(ActionEvent event) {
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
+        Calendar time = Calendar.getInstance();
+        String timeFormat = dateFormat.format(time.getTime());
+
+        if ( serverBtn.getText().equals("시작하기") ) {
+            startServer(IP,port);
+            Platform.runLater(() -> {
+                String message = String.format("[ 서버시작 ]\n" + timeFormat + "\n\n");
+                textArea.appendText(message);
+                serverBtn.setText("종료하기");
+            });
+        }
+        else {
+            stopServer();
+            Platform.runLater(() -> {
+                String message = String.format("[ 서버종료 ]\n" + timeFormat + "\n\n");
+                textArea.appendText(message);
+                serverBtn.setText("시작하기");
+            });
         }
     }
 

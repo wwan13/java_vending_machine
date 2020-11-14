@@ -10,8 +10,11 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("serverUI.fxml"));
-        primaryStage.setTitle("Hello World");
+        String IP = "127.0.0.1";
+        int port = 8001;
+
+        Parent root = FXMLLoader.load(getClass().getResource("serverUI_test.fxml"));
+        primaryStage.setTitle("Server");
         primaryStage.setScene(new Scene(root, 300, 400));
         primaryStage.show();
     }
