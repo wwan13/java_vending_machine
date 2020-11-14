@@ -5,8 +5,7 @@
 <?import javafx.scene.layout.Pane?>
 <?import javafx.scene.layout.VBox?>
 
-
-<VBox fx:controller="client.Controller" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="client.MainUI_Controller">
    <children>
       <Pane prefHeight="52.0" prefWidth="600.0">
          <children>
@@ -20,6 +19,7 @@
             <Button fx:id="sports_drink" layoutX="14.0" layoutY="108.0" mnemonicParsing="false" onAction="#sports_drink_Clicked" prefHeight="30.0" prefWidth="100.0" text="이온음료" />
             <Button fx:id="premium_coffee" layoutX="14.0" layoutY="153.0" mnemonicParsing="false" onAction="#premium_coffee_Clicked" prefHeight="30.0" prefWidth="100.0" text="고급커피" />
             <Button fx:id="soda" layoutX="14.0" layoutY="195.0" mnemonicParsing="false" onAction="#soda_Clicked" prefHeight="30.0" prefWidth="100.0" text="탄산음료" />
+            <Button fx:id="serverBtn" layoutX="422.0" layoutY="82.0" mnemonicParsing="false" onAction="#serverOnOff" prefHeight="30.0" prefWidth="100.0" text="서버접속" />
          </children>
       </Pane>
    </children>

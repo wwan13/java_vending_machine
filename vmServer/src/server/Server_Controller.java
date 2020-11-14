@@ -14,6 +14,7 @@ import java.util.Calendar;
 import java.util.Iterator;
 import java.util.Vector;
 import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 public class Server_Controller {
 
@@ -25,10 +26,16 @@ public class Server_Controller {
     String IP = "127.0.0.1";
     int port = 8001;
 
+    @FXML
+    public Button serverBtn;
+    @FXML
+    public TextArea textArea;
+
     public void startServer(String IP, int port) {
         try {
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(IP,port));
+            printRequest();
         } catch ( Exception e ) {
             e.printStackTrace();
             if ( !serverSocket.isClosed() ) {
@@ -47,6 +54,10 @@ public class Server_Controller {
                         System.out.println("[ 메세지 수신 성공 ]"
                                 + socket.getRemoteSocketAddress()               // 소켓 번호
                                 + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
+                        Platform.runLater(() -> {
+                            String message = String.format("연결완료\n");
+                            textArea.appendText(message);
+                        });
                     } catch ( Exception e ) {
                         if ( !serverSocket.isClosed() ) {
                             stopServer();
@@ -55,6 +66,8 @@ public class Server_Controller {
                 }
             }
         };
+        threadPool = Executors.newCachedThreadPool();
+        threadPool.submit(thread);
     }
 
     public void stopServer() {
@@ -80,10 +93,6 @@ public class Server_Controller {
 
 
     @FXML
-    public Button serverBtn;
-    public TextArea textArea;
-
-    @FXML
     public void serverOnOff(ActionEvent event) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
         Calendar time = Calendar.getInstance();
@@ -106,6 +115,25 @@ public class Server_Controller {
                 serverBtn.setText("시작하기");
             });
         }
+    }
+
+    public void printRequest() {
+        Thread thread = new Thread() {
+            public void run() {
+                while (true) {
+                    for(Client client:clients) {
+                        if ( !client.message.equals("") ) {
+                            Platform.runLater(() -> {
+                                String message = String.format(client.message + "\n");
+                                textArea.appendText(message);
+                                client.setMessage("");
+                            });
+                        }
+                    }
+                }
+            }
+        };
+        thread.start();
     }
 
 }

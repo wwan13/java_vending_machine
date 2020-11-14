@@ -8,13 +8,19 @@ import java.net.Socket;
 
 // 클라이언트와 통신 할 수 있도록 해주는 클래스
 public class Client {
-
     Socket socket;
+    String message;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public Client(Socket socket) {
         this.socket = socket;
+        this.message = "";
         receive();
     }
+
 
     // 클라이언트로부터 메세지를 받는 메소드
     public void receive() {
@@ -22,25 +28,30 @@ public class Client {
             @Override
             public void run() {
                 try {
-                    InputStream in = socket.getInputStream();
-                    byte[] buffer = new byte[512];
+                    while (true) {
+                        setMessage("");
+                        InputStream in = socket.getInputStream();
+                        byte[] buffer = new byte[512];
 
-                    int length = in.read(buffer);
-                    if ( length == -1 ) {
-                        throw new IOException();
+                        int length = in.read(buffer);
+                        if (length == -1) {
+                            throw new IOException();
+                        }
+
+                        System.out.println("[ 메세지 수신 성공 ]"
+                                + socket.getRemoteSocketAddress()               // 소켓 번호
+                                + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
+
+                        String message_ = new String(buffer, 0, length, "UTF-8");
+
+                        message = message_;
+
+                        // 모든 클라이언트에게 메세지 전송
+                        for (Client client : Server_Controller.clients) {
+                            client.send(message);
+                        }
+
                     }
-
-                    System.out.println("[ 메세지 수신 성공 ]"
-                                        + socket.getRemoteSocketAddress()               // 소켓 번호
-                                        + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
-
-                    String message = new String( buffer, 0, length, "UTF-8" );
-
-                    // 모든 클라이언트에게 메세지 전송
-                    for( Client client : Server_Controller.clients ) {
-                        client.send(message);
-                    }
-
                 } catch (Exception e) {
                     try {
                         System.out.println("[ 메세지 수신 실패 ]"
