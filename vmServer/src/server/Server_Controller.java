@@ -35,7 +35,6 @@ public class Server_Controller {
         try {
             serverSocket = new ServerSocket();
             serverSocket.bind(new InetSocketAddress(IP,port));
-            printRequest();
         } catch ( Exception e ) {
             e.printStackTrace();
             if ( !serverSocket.isClosed() ) {
