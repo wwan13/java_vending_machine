@@ -9,15 +9,9 @@ import java.net.Socket;
 // 클라이언트와 통신 할 수 있도록 해주는 클래스
 public class Client {
     Socket socket;
-    String message;
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
 
     public Client(Socket socket) {
         this.socket = socket;
-        this.message = "";
         receive();
     }
 
@@ -29,7 +23,6 @@ public class Client {
             public void run() {
                 try {
                     while (true) {
-                        setMessage("");
                         InputStream in = socket.getInputStream();
                         byte[] buffer = new byte[512];
 
@@ -42,9 +35,7 @@ public class Client {
                                 + socket.getRemoteSocketAddress()               // 소켓 번호
                                 + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
 
-                        String message_ = new String(buffer, 0, length, "UTF-8");
-
-                        message = message_;
+                        String message = new String(buffer, 0, length, "UTF-8");
 
                         // 모든 클라이언트에게 메세지 전송
                         for (Client client : Server_Controller.clients) {

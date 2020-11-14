@@ -117,23 +117,4 @@ public class Server_Controller {
         }
     }
 
-    public void printRequest() {
-        Thread thread = new Thread() {
-            public void run() {
-                while (true) {
-                    for(Client client:clients) {
-                        if ( !client.message.equals("") ) {
-                            Platform.runLater(() -> {
-                                String message = String.format(client.message + "\n");
-                                textArea.appendText(message);
-                                client.setMessage("");
-                            });
-                        }
-                    }
-                }
-            }
-        };
-        thread.start();
-    }
-
 }
