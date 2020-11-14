@@ -14,7 +14,7 @@ public class Main extends Application {
         int port = 8001;
 
         Parent root = FXMLLoader.load(getClass().getResource("serverUI_test.fxml"));
-        primaryStage.setTitle("Server");
+        primaryStage.setTitle("자판기 서버");
         primaryStage.setScene(new Scene(root, 300, 400));
         primaryStage.show();
     }

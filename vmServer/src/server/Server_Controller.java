@@ -92,6 +92,7 @@ public class Server_Controller {
         if ( serverBtn.getText().equals("시작하기") ) {
             startServer(IP,port);
             Platform.runLater(() -> {
+                textArea.setText("");
                 String message = String.format("[ 서버시작 ]\n" + timeFormat + "\n\n");
                 textArea.appendText(message);
                 serverBtn.setText("종료하기");
