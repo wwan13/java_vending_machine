@@ -21,6 +21,8 @@ public class Server_Controller {
     public static ExecutorService threadPool;
     public static Vector<Client> clients = new Vector<Client>();
 
+    public Thread thread_for_Print;
+
     ServerSocket serverSocket;
 
     String IP = "127.0.0.1";
@@ -54,7 +56,7 @@ public class Server_Controller {
                                 + socket.getRemoteSocketAddress()               // 소켓 번호
                                 + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
                         Platform.runLater(() -> {
-                            String message = String.format("연결완료\n");
+                            String message = String.format("connected\n");
                             textArea.appendText(message);
                         });
                     } catch ( Exception e ) {
@@ -84,7 +86,9 @@ public class Server_Controller {
             if ( threadPool != null && !threadPool.isShutdown() ) {
                 threadPool.shutdown();
             }
-
+            if ( thread_for_Print != null && thread_for_Print.isAlive() ) {
+                thread_for_Print.interrupt();
+            }
         } catch ( Exception e ) {
             e.printStackTrace();
         }
@@ -99,6 +103,7 @@ public class Server_Controller {
 
         if ( serverBtn.getText().equals("시작하기") ) {
             startServer(IP,port);
+            printRequest();
             Platform.runLater(() -> {
                 textArea.setText("");
                 String message = String.format("[ 서버시작 ]\n" + timeFormat + "\n\n");
@@ -109,11 +114,41 @@ public class Server_Controller {
         else {
             stopServer();
             Platform.runLater(() -> {
-                String message = String.format("[ 서버종료 ]\n" + timeFormat + "\n\n");
+                String message = String.format( "\n\n" + "[ 서버종료 ]\n" + timeFormat );
                 textArea.appendText(message);
                 serverBtn.setText("시작하기");
             });
         }
     }
+
+    public void printRequest() {
+        thread_for_Print = new Thread() {
+            public void run() {
+                try {
+                    String tmp = "";
+                    while (true) {
+                        for(Client client:clients) {
+                            if ( !client.message.isBlank() && client.set==1 && !client.message.equals(tmp) ) {
+                                tmp = client.message;
+                                printFormat(">> Request :  " + client.message + "\n");
+                            }
+                        }
+                    }
+                } catch ( Exception e ) {
+                    e.printStackTrace();
+                    thread_for_Print.interrupt();
+                }
+
+            }
+        };
+        thread_for_Print.start();
+    }
+
+    public void printFormat(String message) {
+        Platform.runLater(() -> {
+            textArea.appendText(message);
+        });
+    }
+
 
 }

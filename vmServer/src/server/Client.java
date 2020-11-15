@@ -9,12 +9,18 @@ import java.net.Socket;
 // 클라이언트와 통신 할 수 있도록 해주는 클래스
 public class Client {
     Socket socket;
+    String message;
+    int set;
+
+    public void setMessage(String message) {
+        this.message = message;
+    }
 
     public Client(Socket socket) {
         this.socket = socket;
+        message = "";
         receive();
     }
-
 
     // 클라이언트로부터 메세지를 받는 메소드
     public void receive() {
@@ -23,6 +29,7 @@ public class Client {
             public void run() {
                 try {
                     while (true) {
+                        set = 0;
                         InputStream in = socket.getInputStream();
                         byte[] buffer = new byte[512];
 
@@ -31,15 +38,20 @@ public class Client {
                             throw new IOException();
                         }
 
+                        set = 1;
                         System.out.println("[ 메세지 수신 성공 ]"
                                 + socket.getRemoteSocketAddress()               // 소켓 번호
                                 + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
 
-                        String message = new String(buffer, 0, length, "UTF-8");
+                        String message_ = new String(buffer, 0, length, "UTF-8");
+
+                        System.out.println(message_);
+
+                        message = message_;
 
                         // 모든 클라이언트에게 메세지 전송
                         for (Client client : Server_Controller.clients) {
-                            client.send(message);
+                            client.send(message_);
                         }
 
                     }
