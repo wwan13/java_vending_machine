@@ -86,7 +86,7 @@ public class Server_Controller {
             if ( threadPool != null && !threadPool.isShutdown() ) {
                 threadPool.shutdown();
             }
-            if ( thread_for_Print != null && thread_for_Print.isAlive() ) {
+            if ( thread_for_Print != null && !thread_for_Print.isInterrupted() ) {
                 thread_for_Print.interrupt();
             }
         } catch ( Exception e ) {
@@ -125,17 +125,16 @@ public class Server_Controller {
         thread_for_Print = new Thread() {
             public void run() {
                 try {
-                    String tmp = "";
                     while (true) {
                         for(Client client:clients) {
-                            if ( !client.message.isBlank() && client.set==1 && !client.message.equals(tmp) ) {
-                                tmp = client.message;
+                            if ( !client.message.isBlank() && client.set==1) {
                                 printFormat(">> Request :  " + client.message + "\n");
+                                client.set = 0;
                             }
                         }
                     }
                 } catch ( Exception e ) {
-                    e.printStackTrace();
+                    //e.printStackTrace();
                     thread_for_Print.interrupt();
                 }
 

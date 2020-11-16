@@ -29,16 +29,17 @@ public class Client {
             public void run() {
                 try {
                     while (true) {
-                        set = 0;
+                        // set = 0;
                         InputStream in = socket.getInputStream();
                         byte[] buffer = new byte[512];
+
+                        set = 1;
 
                         int length = in.read(buffer);
                         if (length == -1) {
                             throw new IOException();
                         }
 
-                        set = 1;
                         System.out.println("[ 메세지 수신 성공 ]"
                                 + socket.getRemoteSocketAddress()               // 소켓 번호
                                 + ": " + Thread.currentThread().getName());     // 사용중인 쓰레드 이름
