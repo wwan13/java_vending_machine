@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextArea;
+import javafx.scene.layout.VBox;
 
 import java.net.InetSocketAddress;
 import java.net.ServerSocket;
@@ -32,6 +33,8 @@ public class Server_Controller {
     public Button serverBtn;
     @FXML
     public TextArea textArea;
+    @FXML
+    public VBox container;
 
     public void startServer(String IP, int port) {
         try {
@@ -107,6 +110,7 @@ public class Server_Controller {
             Platform.runLater(() -> {
                 textArea.setText("");
                 String message = String.format("[ 서버시작 ]\n" + timeFormat + "\n\n");
+                textArea.setStyle("-fx-border-color: #75b700");
                 textArea.appendText(message);
                 serverBtn.setText("종료하기");
             });
@@ -115,6 +119,7 @@ public class Server_Controller {
             stopServer();
             Platform.runLater(() -> {
                 String message = String.format( "\n\n" + "[ 서버종료 ]\n" + timeFormat );
+                textArea.setStyle("-fx-border-color: #f4f4f4");
                 textArea.appendText(message);
                 serverBtn.setText("시작하기");
             });

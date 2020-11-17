@@ -15,7 +15,7 @@ public class Main extends Application {
 
         Parent root = FXMLLoader.load(getClass().getResource("serverUI_test.fxml"));
         primaryStage.setTitle("자판기 서버");
-        primaryStage.setScene(new Scene(root, 300, 400));
+        primaryStage.setScene(new Scene(root));
         primaryStage.setOnCloseRequest(event -> System.exit(0));
         primaryStage.setResizable(false);
         primaryStage.show();
