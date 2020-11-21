@@ -36,6 +36,7 @@ public class Server_Controller {
     @FXML
     public VBox container;
 
+    // 서버를 시작하는 메소
     public void startServer(String IP, int port) {
         try {
             serverSocket = new ServerSocket();
@@ -74,6 +75,7 @@ public class Server_Controller {
         threadPool.submit(thread);
     }
 
+    // 서버를 닫는 메소드
     public void stopServer() {
         try {
             Iterator<Client> iterator = clients.iterator();
@@ -97,7 +99,7 @@ public class Server_Controller {
         }
     }
 
-
+    // 서버 켜기, 끄기 버튼
     @FXML
     public void serverOnOff(ActionEvent event) {
         SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd  HH:mm:ss");
@@ -139,7 +141,7 @@ public class Server_Controller {
                         }
                     }
                 } catch ( Exception e ) {
-                    //e.printStackTrace();
+                    e.printStackTrace();
                     thread_for_Print.interrupt();
                 }
 
