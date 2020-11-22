@@ -30,6 +30,7 @@ public class Client {
         thread.start();
     }
 
+    // 클라이언트 접속을 종료하는 메소드
     public void stopClient() {
         try {
             if( socket != null && !socket.isClosed() ) {
