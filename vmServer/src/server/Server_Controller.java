@@ -128,6 +128,7 @@ public class Server_Controller {
         }
     }
 
+    // 클라이언트로부터 온 request를 출력하는 메소드
     public void printRequest() {
         thread_for_Print = new Thread() {
             public void run() {
