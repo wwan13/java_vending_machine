@@ -17,11 +17,11 @@ public class Client {
                     socket = new Socket( IP,port );
                     receive();
                 } catch ( Exception e ) {
-//                    if( !socket.isClosed() ) {
-//                        stopClient();
-//                        System.out.println("[ 서버 접속 실패 ]");
-//                        Platform.exit();
-//                    }
+                    if( !socket.isClosed() ) {
+                        stopClient();
+                        System.out.println("[ 서버 접속 실패 ]");
+                        Platform.exit();
+                    }
                     e.printStackTrace();
                 }
 
@@ -51,9 +51,6 @@ public class Client {
                     throw new IOException();
                 }
                 String message = new String(buffer,0,length,"UTF-8");
-//                Platform.runLater(()->{
-//                    System.out.println(message);
-//                });
             } catch ( Exception e ) {
                 stopClient();
                 break;
