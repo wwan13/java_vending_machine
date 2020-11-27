@@ -36,8 +36,8 @@
                </font>
             </Label>
             <TextField fx:id="text_state" alignment="CENTER" editable="false" focusTraversable="false" layoutX="59.0" layoutY="1.0" prefHeight="27.0" prefWidth="100.0" text="not connected" />
-            <TextField fx:id="text_IP" alignment="CENTER" editable="false" focusTraversable="false" layoutX="191.0" layoutY="1.0" prefHeight="27.0" prefWidth="139.0" />
-            <TextField fx:id="text_port" alignment="CENTER" editable="false" focusTraversable="false" layoutX="385.0" layoutY="1.0" prefHeight="27.0" prefWidth="105.0" />
+            <TextField fx:id="text_IP" alignment="CENTER" editable="false" focusTraversable="false" layoutX="191.0" layoutY="1.0" prefHeight="27.0" prefWidth="139.0" text="-" />
+            <TextField fx:id="text_port" alignment="CENTER" editable="false" focusTraversable="false" layoutX="385.0" layoutY="1.0" prefHeight="27.0" prefWidth="105.0" text="-" />
             <Button fx:id="serverBtn" layoutX="521.0" mnemonicParsing="false" onAction="#serverOnOff" prefHeight="27.0" prefWidth="68.0" text="서버접속">
                <font>
                   <Font size="12.0" />
@@ -51,11 +51,11 @@
                <children>
                   <Pane prefHeight="265.0" prefWidth="510.0">
                      <children>
-                        <Button fx:id="water" layoutX="50.0" layoutY="102.0" mnemonicParsing="false" onAction="#water_Clicked" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: #ED6A5E#ED6A5E;" text="450" />
-                        <Button fx:id="sports_drink" layoutX="332.0" layoutY="102.0" mnemonicParsing="false" onAction="#sports_drink_Clicked" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: #ED6A5E;" text="550" />
-                        <Button fx:id="coffee" layoutX="189.0" layoutY="102.0" mnemonicParsing="false" onAction="#coffee_Clicked" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: #ED6A5E;" text="500" />
-                        <Button fx:id="soda" layoutX="263.0" layoutY="229.0" mnemonicParsing="false" onAction="#soda_Clicked" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: #ED6A5E;" text="750" />
-                        <Button fx:id="premium_coffee" layoutX="118.0" layoutY="229.0" mnemonicParsing="false" onAction="#premium_coffee_Clicked" prefHeight="30.0" prefWidth="88.0" style="-fx-border-color: #ED6A5E;" text="700" />
+                        <Button fx:id="water" disable="true" layoutX="50.0" layoutY="102.0" mnemonicParsing="false" onAction="#water_Clicked" prefHeight="30.0" prefWidth="88.0" text="450" />
+                        <Button fx:id="sports_drink" disable="true" layoutX="332.0" layoutY="102.0" mnemonicParsing="false" onAction="#sports_drink_Clicked" prefHeight="30.0" prefWidth="88.0" text="550" />
+                        <Button fx:id="coffee" disable="true" layoutX="189.0" layoutY="102.0" mnemonicParsing="false" onAction="#coffee_Clicked" prefHeight="30.0" prefWidth="88.0" text="500" />
+                        <Button fx:id="soda" disable="true" layoutX="263.0" layoutY="229.0" mnemonicParsing="false" onAction="#soda_Clicked" prefHeight="30.0" prefWidth="88.0" text="750" />
+                        <Button fx:id="premium_coffee" disable="true" layoutX="118.0" layoutY="229.0" mnemonicParsing="false" onAction="#premium_coffee_Clicked" prefHeight="30.0" prefWidth="88.0" text="700" />
                         <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="50.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                            <image>
                               <Image url="@../image/water.png" />
@@ -85,27 +85,27 @@
                   </Pane>
                   <Pane prefHeight="200.0" prefWidth="200.0">
                      <children>
-                        <Button layoutX="3.0" layoutY="68.0" mnemonicParsing="false" onAction="#coinInsert_10" prefHeight="20.0" prefWidth="130.0" text="10 ₩ ">
+                        <Button fx:id="coin_10" disable="true" layoutX="3.0" layoutY="68.0" mnemonicParsing="false" onAction="#coinInsert_10" prefHeight="20.0" prefWidth="130.0" text="10 ₩ ">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Button layoutX="3.0" layoutY="91.0" mnemonicParsing="false" onAction="#coinInsert_50" prefHeight="0.0" prefWidth="130.0" text="50 ₩">
+                        <Button fx:id="coin_50" disable="true" layoutX="3.0" layoutY="91.0" mnemonicParsing="false" onAction="#coinInsert_50" prefHeight="0.0" prefWidth="130.0" text="50 ₩">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Button layoutX="3.0" layoutY="114.0" mnemonicParsing="false" onAction="#coinInsert_100" prefWidth="130.0" text="100 ₩">
+                        <Button fx:id="coin_100" disable="true" layoutX="3.0" layoutY="114.0" mnemonicParsing="false" onAction="#coinInsert_100" prefWidth="130.0" text="100 ₩">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Button layoutX="3.0" layoutY="137.0" mnemonicParsing="false" onAction="#coinInsert_500" prefWidth="130.0" text="500 ₩">
+                        <Button fx:id="coin_500" disable="true" layoutX="3.0" layoutY="137.0" mnemonicParsing="false" onAction="#coinInsert_500" prefWidth="130.0" text="500 ₩">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Button layoutX="3.0" layoutY="160.0" mnemonicParsing="false" onAction="#coinInsert_1000" prefWidth="130.0" text="1000 ₩" textAlignment="CENTER">
+                        <Button fx:id="coin_1000" disable="true" layoutX="3.0" layoutY="160.0" mnemonicParsing="false" onAction="#coinInsert_1000" prefWidth="130.0" text="1000 ₩" textAlignment="CENTER">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -116,12 +116,12 @@
                               <Font size="14.0" />
                            </font>
                         </Text>
-                        <Button layoutX="3.0" layoutY="193.0" mnemonicParsing="false" onAction="#coinReturn" prefWidth="130.0" text="Coin Return" textAlignment="CENTER">
+                        <Button fx:id="coin_return" disable="true" layoutX="3.0" layoutY="193.0" mnemonicParsing="false" onAction="#coinReturn" prefWidth="130.0" text="Coin Return" textAlignment="CENTER">
                            <font>
                               <Font size="10.0" />
                            </font>
                         </Button>
-                        <Button fx:id="serverBtn1" layoutX="3.0" layoutY="231.0" mnemonicParsing="false" onAction="#serverOnOff" prefHeight="24.0" prefWidth="131.0" text="Admin Log In">
+                        <Button fx:id="log_in" disable="true" layoutX="3.0" layoutY="231.0" mnemonicParsing="false" prefHeight="24.0" prefWidth="131.0" text="Admin Log In">
                            <font>
                               <Font size="10.0" />
                            </font>
@@ -134,7 +134,7 @@
       </Pane>
       <Pane prefHeight="38.0" prefWidth="600.0">
          <children>
-            <TextField alignment="CENTER" editable="false" layoutX="11.0" layoutY="1.0" prefHeight="45.0" prefWidth="581.0" />
+            <TextField fx:id="output" alignment="CENTER" editable="false" layoutX="11.0" layoutY="1.0" prefHeight="45.0" prefWidth="581.0" />
          </children>
       </Pane>
    </children>
