@@ -179,8 +179,8 @@ public class MainUI_Controller {
         coins = null;
         coins = new ArrayList<Coin>();
         set_beverage_state();
-        can_insert_additional_coin();
         can_insert_1000();
+        can_insert_additional_coin();
     }
 
     // 서버를 접속 및 자판기 초기화를 담당하는 메소드
