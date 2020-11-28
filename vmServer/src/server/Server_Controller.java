@@ -135,7 +135,7 @@ public class Server_Controller {
                 try {
                     while (true) {
                         for(Client client:clients) {
-                            if ( !client.message.isBlank() && client.set==1) {
+                            if ( !client.message.isBlank() && client.set==1 ) {
                                 printFormat(">> Request :  " + client.message + "\n");
                                 client.set = 0;
                             }

@@ -10,7 +10,7 @@ import java.net.Socket;
 public class Client {
     Socket socket;
     String message;
-    int set;
+    int set=0;
 
     public void setMessage(String message) {
         this.message = message;
