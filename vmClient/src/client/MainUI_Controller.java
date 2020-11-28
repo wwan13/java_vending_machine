@@ -408,6 +408,9 @@ public class MainUI_Controller {
 
     //************** 클라이언트 소켓 관련 매소드 *****************//
 
+    // 서버 소켓이 종료되었을 때 여기서도 서버 접속이 종료 되었음을 알려줄 수 있어야 함 !!
+    // 서버 접속 버튼을 눌렀는데 서버의 소켓이 열려있지 않을 경우 버튼을 비활성화 할 수 있어야함 !!
+
     // 클라이언트와 서버를 연결하는 메소드
     public void startClient( String IP, int port ) {
         Thread thread = new Thread() {
