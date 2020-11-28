@@ -1,6 +1,6 @@
 package server.dataStructure;
 
-import server.model.Beverage;
+import server.Beverage;
 
 class ListNode {
     private Beverage data;
