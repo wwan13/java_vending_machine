@@ -91,9 +91,6 @@ public class Server_Controller {
             if ( threadPool != null && !threadPool.isShutdown() ) {
                 threadPool.shutdown();
             }
-            if ( thread_for_Print != null && !thread_for_Print.isInterrupted() ) {
-                thread_for_Print.interrupt();
-            }
         } catch ( Exception e ) {
             e.printStackTrace();
         }
@@ -119,6 +116,9 @@ public class Server_Controller {
         }
         else {
             stopServer();
+            if ( thread_for_Print != null && !thread_for_Print.isInterrupted() ) {
+                thread_for_Print.interrupt();
+            }
             Platform.runLater(() -> {
                 String message = String.format( "\n\n" + "[ 서버종료 ]\n" + timeFormat );
                 textArea.setStyle("-fx-border-color: #f4f4f4");
@@ -136,13 +136,13 @@ public class Server_Controller {
                     while (true) {
                         for(Client client:clients) {
                             if ( !client.message.isBlank() && client.set==1 ) {
-                                printFormat(">> Request :  " + client.message + "\n");
+                                printFormat(">>  " + client.message + "\n");
                                 client.set = 0;
                             }
                         }
                     }
                 } catch ( Exception e ) {
-                    e.printStackTrace();
+//                    e.printStackTrace();
                     thread_for_Print.interrupt();
                 }
 

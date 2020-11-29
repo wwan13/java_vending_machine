@@ -25,6 +25,12 @@ public class MainUI_Controller {
     static Stack change_500;
     static Stack change_1000;
 
+    boolean water_is_soldOut;
+    boolean coffee_is_soldOut;
+    boolean sports_drink_is_soldOut;
+    boolean premium_coffee_is_soldOut;
+    boolean soda_is_soldOut;
+
     Integer total_coins = 0;
 
     String IP = "127.0.0.1";
@@ -69,45 +75,51 @@ public class MainUI_Controller {
 
     @FXML
     public void water_Clicked(ActionEvent event) {
-        send("water");
+        send("Beverage:water");
         total_coins -= 450;
         set_beverage_state();
         display_set_coin();
+        can_insert_additional_coin();
+        return_button_condition();
         output.setText("water");
     }
 
     @FXML
     public void coffee_Clicked(ActionEvent event) {
-        send("coffee");
+        send("Beverage:coffee");
         total_coins -= 500;
         set_beverage_state();
         display_set_coin();
+        can_insert_additional_coin();
+        return_button_condition();
         output.setText("coffee");
     }
 
     @FXML
     public void sports_drink_Clicked(ActionEvent event) {
-        send("sports drink");
+        send("Beverage:sports drink");
         total_coins -= 550;
         set_beverage_state();
         display_set_coin();
+        can_insert_additional_coin();
         return_button_condition();
         output.setText("sports drink");
     }
 
     @FXML
     public void premium_coffee_Clicked(ActionEvent event) {
-        send("premium coffee");
+        send("Beverage:premium coffee");
         total_coins -= 700;
         set_beverage_state();
         display_set_coin();
+        can_insert_additional_coin();
         return_button_condition();
         output.setText("premium coffee");
     }
 
     @FXML
     public void soda_Clicked(ActionEvent event) {
-        send("soda");
+        send("Beverage:soda");
         total_coins -= 750;
         set_beverage_state();
         display_set_coin();
@@ -200,6 +212,7 @@ public class MainUI_Controller {
             log_in.setDisable(false);
             coins = new ArrayList<Coin>();
             init_change();
+            set_beverage_state();
         }
         else {
             stopClient();
@@ -238,6 +251,11 @@ public class MainUI_Controller {
     public void set_beverage_state() {
         if ( total_coins >= 750 ) {
             soda.setDisable(false);
+            soda.setText("750");
+            if ( soda_is_soldOut ) {
+                soda.setDisable(true);
+                soda.setText("품절");
+            }
         }
         else {
             soda.setDisable(true);
@@ -245,6 +263,11 @@ public class MainUI_Controller {
 
         if ( total_coins >= 700 ) {
             premium_coffee.setDisable(false);
+            premium_coffee.setText("700");
+            if ( premium_coffee_is_soldOut ) {
+                premium_coffee.setDisable(true);
+                premium_coffee.setText("품절");
+            }
         }
         else {
             premium_coffee.setDisable(true);
@@ -252,6 +275,11 @@ public class MainUI_Controller {
 
         if ( total_coins >= 550 ) {
             sports_drink.setDisable(false);
+            sports_drink.setText("550");
+            if ( sports_drink_is_soldOut ) {
+                sports_drink.setDisable(true);
+                sports_drink.setText("품절");
+            }
         }
         else {
             sports_drink.setDisable(true);
@@ -259,6 +287,11 @@ public class MainUI_Controller {
 
         if ( total_coins >= 500 ) {
             coffee.setDisable(false);
+            coffee.setText("500");
+            if ( coffee_is_soldOut ) {
+                coffee.setDisable(true);
+                coffee.setText("품절");
+            }
         }
         else {
             coffee.setDisable(true);
@@ -266,6 +299,11 @@ public class MainUI_Controller {
 
         if ( total_coins >= 450 ) {
             water.setDisable(false);
+            water.setText("450");
+            if ( water_is_soldOut ) {
+                water.setDisable(true);
+                water.setText("품절");
+            }
         }
         else {
             water.setDisable(true);
@@ -453,6 +491,8 @@ public class MainUI_Controller {
                     throw new IOException();
                 }
                 String message = new String(buffer,0,length,"UTF-8");
+                System.out.println(message);
+                request_condition(message);
             } catch ( Exception e ) {
                 stopClient();
                 break;
@@ -475,5 +515,60 @@ public class MainUI_Controller {
             }
         };
         thread.start();
+    }
+
+    public void request_condition( String message ) {
+        // request 규칙
+
+        String request_type = message.split(":")[0];
+        String detail_message = message.split(":")[1];
+
+        if( request_type.equals("Beverage") ) {
+            String[] stock = detail_message.split("-");
+            if ( stock[0].equals("0") ) {
+                water_is_soldOut = true;
+                water.setDisable(true);
+                water.setText("품절");
+            }
+//            else  {
+//                water_is_soldOut = false;
+//            }
+
+            if ( stock[1].equals("0") ) {
+                coffee_is_soldOut = true;
+                coffee.setDisable(true);
+                coffee.setText("품절");
+            }
+//            else {
+//                coffee_is_soldOut = false;
+//            }
+
+            if ( stock[2].equals("0") ) {
+                sports_drink_is_soldOut = true;
+                sports_drink.setDisable(true);
+                sports_drink.setText("품절");
+            }
+//            else {
+//                sports_drink_is_soldOut = false;
+//            }
+
+            if ( stock[3].equals("0") ) {
+                premium_coffee_is_soldOut = true;
+                premium_coffee.setDisable(true);
+                premium_coffee.setText("품절");
+            }
+//            else {
+//                premium_coffee_is_soldOut = false;
+//            }
+
+            if ( stock[4].equals("0") ) {
+                soda_is_soldOut = true;
+                soda.setDisable(true);
+                soda.setText("품절");
+            }
+//            else {
+//                soda_is_soldOut = false;
+//            }
+        }
     }
 }

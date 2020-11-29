@@ -22,7 +22,7 @@ public class Stack {
     }
 
     // 스택이 비어있는지 아닌지 검사하는 메소드
-    public  boolean isEmpty() {
+    public boolean isEmpty() {
         if ( top == null ) {
             return true;
         } else  {
