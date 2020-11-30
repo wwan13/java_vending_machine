@@ -528,47 +528,87 @@ public class MainUI_Controller {
             if ( stock[0].equals("0") ) {
                 water_is_soldOut = true;
                 water.setDisable(true);
-                water.setText("품절");
+                Platform.runLater(() -> {
+                    water.setText("품절");
+                });
             }
-//            else  {
-//                water_is_soldOut = false;
-//            }
+            else if ( stock[0].equals("1") || stock[0].equals("2") || stock[0].equals("3") || stock[0].equals("4") ) {
+                water_is_soldOut = false;
+                Platform.runLater(() -> {
+                    water.setText("450");
+                });
+            }
+            else {
+                return;
+            }
 
             if ( stock[1].equals("0") ) {
                 coffee_is_soldOut = true;
                 coffee.setDisable(true);
-                coffee.setText("품절");
+                Platform.runLater(() -> {
+                    coffee.setText("품절");
+                });
             }
-//            else {
-//                coffee_is_soldOut = false;
-//            }
+            else if ( stock[1].equals("1") || stock[1].equals("2") || stock[1].equals("3") || stock[1].equals("4") ) {
+                coffee_is_soldOut = false;
+                Platform.runLater(() -> {
+                    coffee.setText("500");
+                });
+            }
+            else {
+                return;
+            }
 
             if ( stock[2].equals("0") ) {
                 sports_drink_is_soldOut = true;
                 sports_drink.setDisable(true);
-                sports_drink.setText("품절");
+                Platform.runLater(() -> {
+                    sports_drink.setText("품절");
+                });
             }
-//            else {
-//                sports_drink_is_soldOut = false;
-//            }
+            else if ( stock[2].equals("1") || stock[2].equals("2") || stock[2].equals("3") || stock[2].equals("4") ) {
+                sports_drink_is_soldOut = false;
+                Platform.runLater(() -> {
+                    sports_drink.setText("550");
+                });
+            }
+            else {
+                return;
+            }
 
             if ( stock[3].equals("0") ) {
                 premium_coffee_is_soldOut = true;
                 premium_coffee.setDisable(true);
-                premium_coffee.setText("품절");
+                Platform.runLater(() -> {
+                    premium_coffee.setText("품절");
+                });
             }
-//            else {
-//                premium_coffee_is_soldOut = false;
-//            }
+            else if ( stock[3].equals("1") || stock[3].equals("2") || stock[3].equals("3") || stock[3].equals("4") ) {
+                premium_coffee_is_soldOut = false;
+                Platform.runLater(() -> {
+                    premium_coffee.setText("700");
+                });
+            }
+            else {
+                return;
+            }
 
             if ( stock[4].equals("0") ) {
                 soda_is_soldOut = true;
                 soda.setDisable(true);
-                soda.setText("품절");
+                Platform.runLater(() -> {
+                    soda.setText("품절");
+                });
             }
-//            else {
-//                soda_is_soldOut = false;
-//            }
+            else if ( stock[4].equals("1") || stock[4].equals("2") || stock[4].equals("3") || stock[4].equals("4") ) {
+                soda_is_soldOut = false;
+                Platform.runLater(() -> {
+                    soda.setText("750");
+                });
+            }
+            else {
+                return;
+            }
         }
     }
 }
