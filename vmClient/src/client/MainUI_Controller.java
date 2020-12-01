@@ -80,6 +80,7 @@ public class MainUI_Controller {
         set_beverage_state();
         display_set_coin();
         can_insert_additional_coin();
+        can_insert_1000();
         return_button_condition();
         output.setText("water");
     }
@@ -91,6 +92,7 @@ public class MainUI_Controller {
         set_beverage_state();
         display_set_coin();
         can_insert_additional_coin();
+        can_insert_1000();
         return_button_condition();
         output.setText("coffee");
     }
@@ -102,6 +104,7 @@ public class MainUI_Controller {
         set_beverage_state();
         display_set_coin();
         can_insert_additional_coin();
+        can_insert_1000();
         return_button_condition();
         output.setText("sports drink");
     }
@@ -113,6 +116,7 @@ public class MainUI_Controller {
         set_beverage_state();
         display_set_coin();
         can_insert_additional_coin();
+        can_insert_1000();
         return_button_condition();
         output.setText("premium coffee");
     }
@@ -123,6 +127,8 @@ public class MainUI_Controller {
         total_coins -= 750;
         set_beverage_state();
         display_set_coin();
+        can_insert_additional_coin();
+        can_insert_1000();
         return_button_condition();
         output.setText("soda");
     }
@@ -135,6 +141,7 @@ public class MainUI_Controller {
         set_beverage_state();
         return_button_condition();
         can_insert_additional_coin();
+        can_insert_1000();
         output.setText("");
     }
 
@@ -146,6 +153,7 @@ public class MainUI_Controller {
         set_beverage_state();
         return_button_condition();
         can_insert_additional_coin();
+        can_insert_1000();
         output.setText("");
     }
 
@@ -157,6 +165,7 @@ public class MainUI_Controller {
         set_beverage_state();
         return_button_condition();
         can_insert_additional_coin();
+        can_insert_1000();
         output.setText("");
     }
 
@@ -168,6 +177,7 @@ public class MainUI_Controller {
         set_beverage_state();
         return_button_condition();
         can_insert_additional_coin();
+        can_insert_1000();
         output.setText("");
     }
 
