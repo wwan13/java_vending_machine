@@ -3,14 +3,23 @@ package client;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
+import javafx.scene.layout.Pane;
+import javafx.stage.Popup;
+import javafx.stage.Window;
 
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.IDN;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.logging.Logger;
 
 
 public class MainUI_Controller {
@@ -36,6 +45,7 @@ public class MainUI_Controller {
     String IP = "127.0.0.1";
     Integer port = 8001;
 
+    // main
     @FXML
     public Button serverBtn;
     @FXML
@@ -46,6 +56,8 @@ public class MainUI_Controller {
     public TextField text_port;
     @FXML
     public TextField text_coin;
+    @FXML
+    public Pane main_contents;
     @FXML
     public Button water;
     @FXML
@@ -72,7 +84,22 @@ public class MainUI_Controller {
     public TextField output;
     @FXML
     public Button log_in;
+    @FXML
+    public Pane contents_wrap;
 
+    // login
+    @FXML
+    public Pane login_contents;
+    @FXML
+    public TextField id_box;
+    @FXML
+    public PasswordField pw_box;
+    @FXML
+    public Button id_confirm;
+    @FXML
+    public Button login_submit;
+
+    // main ui
     @FXML
     public void water_Clicked(ActionEvent event) {
         send("Beverage:water");
@@ -452,6 +479,36 @@ public class MainUI_Controller {
             coin_return.setDisable(false);
         }
     }
+
+    @FXML
+    public void login_btn(ActionEvent event) {
+        loadPage("login_form");
+    }
+
+    public void loadPage(String page) {
+        try {
+//            Parent root = FXMLLoader.load(getClass().getResource(page+".fxml"));
+            contents_wrap.getChildren().clear();
+            contents_wrap.getChildren().addAll(login_contents);
+        }catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // login form
+
+    @FXML
+    public void go_back_in_login(ActionEvent event) {
+        contents_wrap.getChildren().removeAll();
+        contents_wrap.getChildren().addAll(main_contents);
+    }
+
+    @FXML
+    public void login_submit_btn(ActionEvent event) {
+         String ID = id_box.getText();
+         send(ID);
+    }
+
 
 
     //************** 클라이언트 소켓 관련 매소드 *****************//
