@@ -1,9 +1,11 @@
-package client;
+package vending_machine.model;
 
 public class Coin {
-    Integer value;
+    public Integer value;
 
     public Coin(Integer value) {
         this.value = value;
     }
+
+
 }

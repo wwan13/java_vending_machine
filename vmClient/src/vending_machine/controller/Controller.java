@@ -1,38 +1,40 @@
-package client;
+package vending_machine.controller;
 
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
-import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.Pane;
-import javafx.stage.Popup;
-import javafx.stage.Window;
+import vending_machine.model.Beverage;
+import vending_machine.model.data_structure.Queue;
+import vending_machine.model.data_structure.Stack;
+import vending_machine.model.Coin;
 
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.net.IDN;
 import java.net.Socket;
 import java.util.ArrayList;
-import java.util.logging.Logger;
 
 
-public class MainUI_Controller {
+public class Controller {
 
     Socket socket;
 
     static ArrayList<Coin> coins;
 
+    // 거스름돈을 담고 있는 스택
     static Stack change_10;
     static Stack change_50;
     static Stack change_100;
     static Stack change_500;
     static Stack change_1000;
+
+    // 음료의 재고를 담은 큐
+    static Queue water_stock;
+    static Queue coffee_stock;
+    static Queue sports_drink_stock;
+    static Queue premium_coffee_stock;
+    static Queue soda_stock;
 
     boolean water_is_soldOut;
     boolean coffee_is_soldOut;
@@ -42,8 +44,8 @@ public class MainUI_Controller {
 
     Integer total_coins = 0;
 
-    String IP = "127.0.0.1";
-    Integer port = 8001;
+
+    // FXML 변수 -------------------------------------
 
     // main
     @FXML
@@ -99,12 +101,89 @@ public class MainUI_Controller {
     @FXML
     public Button login_submit;
 
+    //------------------------------------------------
+
+    // 컨트롤러 초기화 관련 메소드 --------------------------
+
+    // 컨트롤러 초기화 메소드
+    public void initialize() {
+        coin_10.setDisable(false);
+        coin_50.setDisable(false);
+        coin_100.setDisable(false);
+        coin_500.setDisable(false);
+        coin_1000.setDisable(false);
+        log_in.setDisable(false);
+        coins = new ArrayList<Coin>();
+        init_change();
+        init_Beverage();
+        set_beverage_state();
+    }
+
+    // 거스름돈을 각각 3개 씩으로 초기화 하는 함수
+    public void init_change() {
+        change_10 = new Stack();
+        change_50 = new Stack();
+        change_100 = new Stack();
+        change_500 = new Stack();
+        change_1000 = new Stack();
+
+        // 3개식 집어넣음
+        for (int i = 0; i < 3; i++) {
+            change_10.stackPush(new Coin(10));
+        }
+        for (int i = 0; i < 3; i++) {
+            change_50.stackPush(new Coin(50));
+        }
+        for (int i = 0; i < 3; i++) {
+            change_100.stackPush(new Coin(100));
+        }
+        for (int i = 0; i < 3; i++) {
+            change_500.stackPush(new Coin(500));
+        }
+        for (int i = 0; i < 3; i++) {
+            change_1000.stackPush(new Coin(1000));
+        }
+    }
+
+    // 초기 음료의 갯수를 3개로 초기화 하는 메소드
+    public void init_Beverage() {
+        water_stock = new Queue();
+        coffee_stock = new Queue();
+        sports_drink_stock = new Queue();
+        premium_coffee_stock = new Queue();
+        soda_stock = new Queue();
+
+        for (int i = 0; i < 3; i++) {
+            water_stock.enqueue(new Beverage("water", 450));
+        }
+        for (int i = 0; i < 3; i++) {
+            coffee_stock.enqueue(new Beverage("coffee", 550));
+        }
+        for (int i = 0; i < 3; i++) {
+            sports_drink_stock.enqueue(new Beverage("sports drink", 550));
+        }
+        for (int i = 0; i < 3; i++) {
+            premium_coffee_stock.enqueue(new Beverage("premium coffee", 700));
+        }
+        for (int i = 0; i < 3; i++) {
+            soda_stock.enqueue(new Beverage("soda", 750));
+        }
+    }
+
+    // ---------------------------------------------
+
+    // FXML 버튼 관련 메소드 ----------------------------
+
     // main ui
+
+    // 음료 버튼
+
     @FXML
     public void water_Clicked(ActionEvent event) {
-        send("Beverage:water");
+        water_stock.dequeue();
         total_coins -= 450;
         set_beverage_state();
+        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -114,9 +193,10 @@ public class MainUI_Controller {
 
     @FXML
     public void coffee_Clicked(ActionEvent event) {
-        send("Beverage:coffee");
+        coffee_stock.dequeue();
         total_coins -= 500;
         set_beverage_state();
+        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -126,9 +206,10 @@ public class MainUI_Controller {
 
     @FXML
     public void sports_drink_Clicked(ActionEvent event) {
-        send("Beverage:sports drink");
+        sports_drink_stock.dequeue();
         total_coins -= 550;
         set_beverage_state();
+        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -138,9 +219,10 @@ public class MainUI_Controller {
 
     @FXML
     public void premium_coffee_Clicked(ActionEvent event) {
-        send("Beverage:premium coffee");
+        premium_coffee_stock.dequeue();
         total_coins -= 700;
         set_beverage_state();
+        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -150,9 +232,10 @@ public class MainUI_Controller {
 
     @FXML
     public void soda_Clicked(ActionEvent event) {
-        send("Beverage:soda");
+        soda_stock.dequeue();
         total_coins -= 750;
         set_beverage_state();
+        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -160,12 +243,15 @@ public class MainUI_Controller {
         output.setText("soda");
     }
 
+    // 동전 입력 버
+
     @FXML
     public void coinInsert_10(ActionEvent event) {
         coins.add(new Coin(10));
         total_coins += 10;
         display_set_coin();
         set_beverage_state();
+        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -178,6 +264,7 @@ public class MainUI_Controller {
         total_coins += 50;
         display_set_coin();
         set_beverage_state();
+        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -190,6 +277,7 @@ public class MainUI_Controller {
         total_coins += 100;
         display_set_coin();
         set_beverage_state();
+        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -202,6 +290,7 @@ public class MainUI_Controller {
         total_coins += 500;
         display_set_coin();
         set_beverage_state();
+        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -214,13 +303,15 @@ public class MainUI_Controller {
         total_coins += 1000;
         display_set_coin();
         set_beverage_state();
+        beverage_stock_condition();
         return_button_condition();
         can_insert_1000();
         can_insert_additional_coin();
         output.setText("");
     }
 
-    // 코인을 반환 해주는 메소드
+    // 코인을 반환 버튼
+
     @FXML
     public void coinReturn(ActionEvent event) {
         return_change();
@@ -232,53 +323,15 @@ public class MainUI_Controller {
         can_insert_additional_coin();
     }
 
-    // 서버를 접속 및 자판기 초기화를 담당하는 메소드
+    // 로그인 동작 버트
     @FXML
-    public void serverOnOff(ActionEvent event) {
-        if ( serverBtn.getText().equals("서버접속") ) {
-            startClient(IP,port);
-            serverBtn.setText("접속종료");
-            text_IP.setText(IP);
-            text_port.setText(port.toString());
-            text_state.setText("connected");
-            coin_10.setDisable(false);
-            coin_50.setDisable(false);
-            coin_100.setDisable(false);
-            coin_500.setDisable(false);
-            coin_1000.setDisable(false);
-            log_in.setDisable(false);
-            coins = new ArrayList<Coin>();
-            init_change();
-            set_beverage_state();
-        }
-        else {
-            stopClient();
-            serverBtn.setText("서버접속");
-            text_IP.setText("-");
-            text_port.setText("-");
-            text_state.setText("not connected");
-            text_coin.setText("");
-            output.setText("");
-            coin_10.setDisable(true);
-            coin_50.setDisable(true);
-            coin_100.setDisable(true);
-            coin_500.setDisable(true);
-            coin_1000.setDisable(true);
-            coin_return.setDisable(true);
-            log_in.setDisable(true);
-            water.setDisable(true);
-            coffee.setDisable(true);
-            sports_drink.setDisable(true);
-            premium_coffee.setDisable(true);
-            soda.setDisable(true);
-            coins = null;
-            change_10 = null;
-            change_50 = null;
-            change_100 = null;
-            change_500 = null;
-            change_1000  = null;
-        }
+    public void login_btn(ActionEvent event) {
+
     }
+
+    // -----------------------------------------------
+
+    // 기타 버튼의 상태 or 동작을 하는 메소드
 
     // ui에 코인이 얼마나 들어있는지 보여주는 메소드
     public void display_set_coin() {
@@ -286,77 +339,71 @@ public class MainUI_Controller {
     }
 
     public void set_beverage_state() {
-        if ( total_coins >= 750 ) {
+        if (total_coins >= 750) {
             soda.setDisable(false);
             soda.setText("750");
-            if ( soda_is_soldOut ) {
+            if (soda_is_soldOut) {
                 soda.setDisable(true);
                 soda.setText("품절");
             }
-        }
-        else {
+        } else {
             soda.setDisable(true);
         }
 
-        if ( total_coins >= 700 ) {
+        if (total_coins >= 700) {
             premium_coffee.setDisable(false);
             premium_coffee.setText("700");
-            if ( premium_coffee_is_soldOut ) {
+            if (premium_coffee_is_soldOut) {
                 premium_coffee.setDisable(true);
                 premium_coffee.setText("품절");
             }
-        }
-        else {
+        } else {
             premium_coffee.setDisable(true);
         }
 
-        if ( total_coins >= 550 ) {
+        if (total_coins >= 550) {
             sports_drink.setDisable(false);
             sports_drink.setText("550");
-            if ( sports_drink_is_soldOut ) {
+            if (sports_drink_is_soldOut) {
                 sports_drink.setDisable(true);
                 sports_drink.setText("품절");
             }
-        }
-        else {
+        } else {
             sports_drink.setDisable(true);
         }
 
-        if ( total_coins >= 500 ) {
+        if (total_coins >= 500) {
             coffee.setDisable(false);
             coffee.setText("500");
-            if ( coffee_is_soldOut ) {
+            if (coffee_is_soldOut) {
                 coffee.setDisable(true);
                 coffee.setText("품절");
             }
-        }
-        else {
+        } else {
             coffee.setDisable(true);
         }
 
-        if ( total_coins >= 450 ) {
+        if (total_coins >= 450) {
             water.setDisable(false);
             water.setText("450");
-            if ( water_is_soldOut ) {
+            if (water_is_soldOut) {
                 water.setDisable(true);
                 water.setText("품절");
             }
-        }
-        else {
+        } else {
             water.setDisable(true);
         }
     }
 
     // 3000원이 넘게 들어가면 버튼을 모두 비활성화하고 아니면 활성화하는 메소드
     public void can_insert_additional_coin() {
-        if(total_coins>=3000) {
+        if (total_coins >= 3000) {
             coin_10.setDisable(true);
             coin_50.setDisable(true);
             coin_100.setDisable(true);
             coin_500.setDisable(true);
             coin_1000.setDisable(true);
-        }
-        else {
+        } else {
             coin_10.setDisable(false);
             coin_50.setDisable(false);
             coin_100.setDisable(false);
@@ -368,44 +415,18 @@ public class MainUI_Controller {
     // 1000원짜리 지폐를 넣을수 있는지 없는지 판별하는 매소드
     public void can_insert_1000() {
         Integer count = 0;
-        for ( Coin coin:coins ) {
-            if( coin.value == 1000 ) {
+        for (Coin coin : coins) {
+            if (coin.value == 1000) {
                 count++;
             }
         }
-        if( count >= 3 ) {
+        if (count >= 3) {
             coin_1000.setDisable(true);
-        }
-        else {
+        } else {
             coin_1000.setDisable(false);
         }
     }
 
-    // 거스름돈을 각각 3개 씩으로 초기화 하는 함수
-    public void init_change() {
-        change_10 = new Stack();
-        change_50 = new Stack();
-        change_100 = new Stack();
-        change_500 = new Stack();
-        change_1000 = new Stack();
-
-        // 3개식 집어넣음
-        for ( int i=0;i<3;i++ ) {
-            change_10.stackPush(new Coin(10));
-        }
-        for ( int i=0;i<3;i++ ) {
-            change_50.stackPush(new Coin(50));
-        }
-        for ( int i=0;i<3;i++ ) {
-            change_100.stackPush(new Coin(100));
-        }
-        for ( int i=0;i<3;i++ ) {
-            change_500.stackPush(new Coin(500));
-        }
-        for ( int i=0;i<3;i++ ) {
-            change_1000.stackPush(new Coin(1000));
-        }
-    }
 
     // 거스름돈을 반환 해 주는 메소드
     public void return_change() {
@@ -418,262 +439,204 @@ public class MainUI_Controller {
         Integer count_10 = 0;
 
         while (total_coins >= 0) {
-            if ( total_coins != 0 ) {
+            if (total_coins != 0) {
                 change_message = "|   ";
             }
 
-            if ( total_coins - 1000 >= 0 && change_1000.isEmpty() == false ) {
+            if (total_coins - 1000 >= 0 && change_1000.isEmpty() == false) {
                 change_value = change_1000.stackPop().value;
                 total_coins = total_coins - change_value;
                 count_1000++;
-            }
-            else if ( total_coins - 500 >= 0 && change_500.isEmpty() == false ) {
+            } else if (total_coins - 500 >= 0 && change_500.isEmpty() == false) {
                 change_value = change_500.stackPop().value;
                 total_coins = total_coins - change_value;
                 count_500++;
-            }
-            else if ( total_coins - 100 >= 0 && change_100.isEmpty() == false ) {
+            } else if (total_coins - 100 >= 0 && change_100.isEmpty() == false) {
                 change_value = change_100.stackPop().value;
                 total_coins = total_coins - change_value;
                 count_100++;
-            }
-            else if ( total_coins - 50 >= 0 && change_50.isEmpty() == false ) {
+            } else if (total_coins - 50 >= 0 && change_50.isEmpty() == false) {
                 change_value = change_50.stackPop().value;
                 total_coins = total_coins - change_value;
                 count_50++;
-            }
-            else if ( total_coins - 10 >= 0 && change_10.isEmpty() == false ) {
+            } else if (total_coins - 10 >= 0 && change_10.isEmpty() == false) {
                 change_value = change_10.stackPop().value;
                 total_coins = total_coins - change_value;
                 count_10++;
-            }
-            else {
+            } else {
                 output.setText("잔돈 부족");
                 break;
             }
         }
-        if( count_1000 > 0 ) {
-            change_message = String.format( change_message + "1000원 : " + count_1000 + " 개   |   ");
+        if (count_1000 > 0) {
+            change_message = String.format(change_message + "1000원 : " + count_1000 + " 개   |   ");
         }
-        if( count_500 > 0 ) {
-            change_message = String.format( change_message + "500원 : " + count_500 + " 개   |   ");
+        if (count_500 > 0) {
+            change_message = String.format(change_message + "500원 : " + count_500 + " 개   |   ");
         }
-        if( count_100 > 0 ) {
-            change_message = String.format( change_message + "100원 : " + count_100 + " 개   |   ");
+        if (count_100 > 0) {
+            change_message = String.format(change_message + "100원 : " + count_100 + " 개   |   ");
         }
-        if( count_50 > 0 ) {
-            change_message = String.format( change_message + "50원 : " + count_50 + " 개   |   ");
+        if (count_50 > 0) {
+            change_message = String.format(change_message + "50원 : " + count_50 + " 개   |   ");
         }
-        if( count_10 > 0 ) {
-            change_message = String.format( change_message + "10원 : " + count_10 + " 개   |   ");
+        if (count_10 > 0) {
+            change_message = String.format(change_message + "10원 : " + count_10 + " 개   |   ");
         }
         text_coin.setText(total_coins.toString());
         output.setText(change_message);
     }
 
     public void return_button_condition() {
-        if ( total_coins == 0 ) {
+        if (total_coins == 0) {
             coin_return.setDisable(true);
-        }
-        else {
+        } else {
             coin_return.setDisable(false);
         }
     }
 
-    @FXML
-    public void login_btn(ActionEvent event) {
-        loadPage("login_form");
-    }
-
-    public void loadPage(String page) {
-        try {
-//            Parent root = FXMLLoader.load(getClass().getResource(page+".fxml"));
-            contents_wrap.getChildren().clear();
-            contents_wrap.getChildren().addAll(login_contents);
-        }catch (Exception e) {
-            e.printStackTrace();
+    // 음료의 재고 상태를 확인하는 메소드
+    public void beverage_stock_condition() {
+        if (water_stock.length() == 0) {
+            Platform.runLater(() -> {
+                water.setText("품절");
+                water.setDisable(true);
+            });
+        } else {
+            Platform.runLater(() -> {
+                water.setText("450");
+                water.setDisable(false);
+            });
+        }
+        if (coffee_stock.length() == 0) {
+            coffee.setText("품절");
+            coffee.setDisable(true);
+            Platform.runLater(() -> {
+                water.setText("450");
+                water.setDisable(false);
+            });
+        } else {
+            Platform.runLater(() -> {
+                coffee.setText("500");
+                coffee.setDisable(false);
+            });
+        }
+        if (sports_drink_stock.length() == 0) {
+            Platform.runLater(() -> {
+                sports_drink.setText("품절");
+                sports_drink.setDisable(true);
+            });
+        } else {
+            Platform.runLater(() -> {
+                sports_drink.setText("550");
+                sports_drink.setDisable(false);
+            });
+        }
+        if (premium_coffee_stock.length() == 0) {
+            Platform.runLater(() -> {
+                premium_coffee.setText("품절");
+                premium_coffee.setDisable(true);
+            });
+        } else {
+            Platform.runLater(() -> {
+                premium_coffee.setText("450");
+                premium_coffee.setDisable(false);
+            });
+        }
+        if (soda_stock.length() == 0) {
+            Platform.runLater(() -> {
+                soda.setText("품절");
+                soda.setDisable(true);
+            });
+        } else {
+            Platform.runLater(() -> {
+                soda.setText("450");
+                soda.setDisable(false);
+            });
         }
     }
 
-    // login form
 
-    @FXML
-    public void go_back_in_login(ActionEvent event) {
-        contents_wrap.getChildren().removeAll();
-        contents_wrap.getChildren().addAll(main_contents);
-    }
-
-    @FXML
-    public void login_submit_btn(ActionEvent event) {
-         String ID = id_box.getText();
-         send(ID);
-    }
-
-
-
-    //************** 클라이언트 소켓 관련 매소드 *****************//
-
-    // 서버 소켓이 종료되었을 때 여기서도 서버 접속이 종료 되었음을 알려줄 수 있어야 함 !!
-    // 서버 접속 버튼을 눌렀는데 서버의 소켓이 열려있지 않을 경우 버튼을 비활성화 할 수 있어야함 !!
-
-    // 클라이언트와 서버를 연결하는 메소드
-    public void startClient( String IP, int port ) {
-        Thread thread = new Thread() {
-            public void run() {
-                try {
-                    socket = new Socket( IP,port );
-                    receive();
-                } catch ( Exception e ) {
-                    if( !socket.isClosed() ) {
-                        stopClient();
-                        System.out.println("[ 서버 접속 실패 ]");
-                        Platform.exit();
-                    }
-                    e.printStackTrace();
-                }
-
-            }
-        };
-        thread.start();
-    }
-
-    // 클라이언트와 서버의 접속을 종료하는 메소드
-    public void stopClient() {
-        try {
-            if( socket != null && !socket.isClosed() ) {
-                socket.close();
-            }
-        } catch ( Exception e ) {
-            e.printStackTrace();
-        }
-    }
-
-    public void receive() {
-        while (true) {
-            try {
-                InputStream in = socket.getInputStream();
-                byte[] buffer = new byte[512];
-                int length = in.read(buffer);
-                if ( length == -1 ) {
-                    throw new IOException();
-                }
-                String message = new String(buffer,0,length,"UTF-8");
-                System.out.println(message);
-                request_condition(message);
-            } catch ( Exception e ) {
-                stopClient();
-                break;
-            }
-        }
-
-    }
-
-    public void send( String message ) {
-        Thread thread = new Thread() {
-            public void run() {
-                try {
-                    OutputStream out = socket.getOutputStream();
-                    byte[] buffer = message.getBytes("UTF-8");
-                    out.write(buffer);
-                    out.flush();
-                } catch ( Exception e ) {
-                    stopClient();
-                }
-            }
-        };
-        thread.start();
-    }
-
-    public void request_condition( String message ) {
+    public void request_condition(String message) {
         // request 규칙
 
         String request_type = message.split(":")[0];
         String detail_message = message.split(":")[1];
 
-        if( request_type.equals("Beverage") ) {
+        if (request_type.equals("Beverage")) {
             String[] stock = detail_message.split("-");
-            if ( stock[0].equals("0") ) {
+            if (stock[0].equals("0")) {
                 water_is_soldOut = true;
                 water.setDisable(true);
                 Platform.runLater(() -> {
                     water.setText("품절");
                 });
-            }
-            else if ( stock[0].equals("1") || stock[0].equals("2") || stock[0].equals("3") || stock[0].equals("4") ) {
+            } else if (stock[0].equals("1") || stock[0].equals("2") || stock[0].equals("3") || stock[0].equals("4")) {
                 water_is_soldOut = false;
                 Platform.runLater(() -> {
                     water.setText("450");
                 });
-            }
-            else {
+            } else {
                 return;
             }
 
-            if ( stock[1].equals("0") ) {
+            if (stock[1].equals("0")) {
                 coffee_is_soldOut = true;
                 coffee.setDisable(true);
                 Platform.runLater(() -> {
                     coffee.setText("품절");
                 });
-            }
-            else if ( stock[1].equals("1") || stock[1].equals("2") || stock[1].equals("3") || stock[1].equals("4") ) {
+            } else if (stock[1].equals("1") || stock[1].equals("2") || stock[1].equals("3") || stock[1].equals("4")) {
                 coffee_is_soldOut = false;
                 Platform.runLater(() -> {
                     coffee.setText("500");
                 });
-            }
-            else {
+            } else {
                 return;
             }
 
-            if ( stock[2].equals("0") ) {
+            if (stock[2].equals("0")) {
                 sports_drink_is_soldOut = true;
                 sports_drink.setDisable(true);
                 Platform.runLater(() -> {
                     sports_drink.setText("품절");
                 });
-            }
-            else if ( stock[2].equals("1") || stock[2].equals("2") || stock[2].equals("3") || stock[2].equals("4") ) {
+            } else if (stock[2].equals("1") || stock[2].equals("2") || stock[2].equals("3") || stock[2].equals("4")) {
                 sports_drink_is_soldOut = false;
                 Platform.runLater(() -> {
                     sports_drink.setText("550");
                 });
-            }
-            else {
+            } else {
                 return;
             }
 
-            if ( stock[3].equals("0") ) {
+            if (stock[3].equals("0")) {
                 premium_coffee_is_soldOut = true;
                 premium_coffee.setDisable(true);
                 Platform.runLater(() -> {
                     premium_coffee.setText("품절");
                 });
-            }
-            else if ( stock[3].equals("1") || stock[3].equals("2") || stock[3].equals("3") || stock[3].equals("4") ) {
+            } else if (stock[3].equals("1") || stock[3].equals("2") || stock[3].equals("3") || stock[3].equals("4")) {
                 premium_coffee_is_soldOut = false;
                 Platform.runLater(() -> {
                     premium_coffee.setText("700");
                 });
-            }
-            else {
+            } else {
                 return;
             }
 
-            if ( stock[4].equals("0") ) {
+            if (stock[4].equals("0")) {
                 soda_is_soldOut = true;
                 soda.setDisable(true);
                 Platform.runLater(() -> {
                     soda.setText("품절");
                 });
-            }
-            else if ( stock[4].equals("1") || stock[4].equals("2") || stock[4].equals("3") || stock[4].equals("4") ) {
+            } else if (stock[4].equals("1") || stock[4].equals("2") || stock[4].equals("3") || stock[4].equals("4")) {
                 soda_is_soldOut = false;
                 Platform.runLater(() -> {
                     soda.setText("750");
                 });
-            }
-            else {
+            } else {
                 return;
             }
         }

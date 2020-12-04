@@ -1,6 +1,6 @@
-package client;
+package vending_machine.model.data_structure;
 
-import java.beans.DesignMode;
+import vending_machine.model.Coin;
 
 // 스택의 노드 -> 링크드 리스트로 구현
 class stackNode {
@@ -13,19 +13,20 @@ class stackNode {
         link = null;
     }
 }
+
 // 스택 자료구조
 public class Stack {
     stackNode top;
 
     public Stack() {
-        this.top=null;
+        this.top = null;
     }
 
     // 스택이 비어있는지 아닌지 검사하는 메소드
     public boolean isEmpty() {
-        if ( top == null ) {
+        if (top == null) {
             return true;
-        } else  {
+        } else {
             return false;
         }
     }
@@ -39,10 +40,9 @@ public class Stack {
 
     // 스택에서 top에 있는 값을 반환하는 메소드
     public Coin stackPeek() {
-        if( isEmpty() == true ) {
+        if (isEmpty() == true) {
             throw new ArrayIndexOutOfBoundsException();
-        }
-        else {
+        } else {
             return top.data;
         }
     }

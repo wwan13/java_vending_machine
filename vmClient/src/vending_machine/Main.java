@@ -1,15 +1,16 @@
-package client;
+package vending_machine;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import vending_machine.controller.Controller;
 
 public class Main extends Application {
     @Override
-    public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("mainUI_test.fxml"));
+    public void start(Stage primaryStage) throws Exception {
+        Parent root = FXMLLoader.load(getClass().getResource("view/mainUI.fxml"));
         primaryStage.setTitle("Vending Machine");
         primaryStage.setScene(new Scene(root));
         primaryStage.setResizable(false);
