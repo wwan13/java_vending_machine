@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="300.0" prefWidth="400.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vending_machine.controller.Login_Controller">
+   <children>
+      <Label layoutX="181.0" layoutY="49.0" text="LOGIN">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <TextField fx:id="lf_id_box" layoutX="106.0" layoutY="92.0" prefHeight="27.0" prefWidth="213.0" />
+      <Label layoutX="83.0" layoutY="96.0" text="ID">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <Label layoutX="74.0" layoutY="135.0" text="PW">
+         <font>
+            <Font size="15.0" />
+         </font>
+      </Label>
+      <PasswordField fx:id="lf_pw_box" layoutX="106.0" layoutY="131.0" prefHeight="27.0" prefWidth="214.0" />
+      <Button fx:id="lf_login" disable="true" layoutX="74.0" layoutY="186.0" mnemonicParsing="false" onAction="#lf_login_btn" prefHeight="27.0" prefWidth="247.0" text="Log In" />
+      <Button layoutX="74.0" layoutY="223.0" mnemonicParsing="false" onAction="#lf_signup_btn" prefHeight="27.0" prefWidth="247.0" text="Sign Up" />
+   </children>
+</Pane>
