@@ -11,145 +11,109 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-      prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="vending_machine.controller.Controller">
-    <children>
-        <Pane prefHeight="44.0" prefWidth="600.0">
-            <children>
-                <Label alignment="CENTER" layoutX="236.0" layoutY="14.0" prefHeight="17.0" prefWidth="123.0"
-                       text="Vending Machine"/>
-            </children>
-        </Pane>
-        <Pane fx:id="contents_wrap">
-            <children>
-                <Pane fx:id="main_contents">
-                    <children>
-                        <Pane layoutY="1.0" prefHeight="263.0" prefWidth="408.0">
-                            <children>
-                                <HBox layoutY="-1.0" prefHeight="265.0" prefWidth="600.0">
-                                    <children>
-                                        <Pane prefHeight="265.0" prefWidth="510.0">
-                                            <children>
-                                                <Button fx:id="water" disable="true" layoutX="50.0" layoutY="102.0"
-                                                        mnemonicParsing="false" onAction="#water_Clicked"
-                                                        prefHeight="30.0" prefWidth="88.0" text="450"/>
-                                                <Button fx:id="sports_drink" disable="true" layoutX="332.0"
-                                                        layoutY="102.0" mnemonicParsing="false"
-                                                        onAction="#sports_drink_Clicked" prefHeight="30.0"
-                                                        prefWidth="88.0" text="550"/>
-                                                <Button fx:id="coffee" disable="true" layoutX="189.0" layoutY="102.0"
-                                                        mnemonicParsing="false" onAction="#coffee_Clicked"
-                                                        prefHeight="30.0" prefWidth="88.0" text="500"/>
-                                                <Button fx:id="soda" disable="true" layoutX="263.0" layoutY="229.0"
-                                                        mnemonicParsing="false" onAction="#soda_Clicked"
-                                                        prefHeight="30.0" prefWidth="88.0" text="750"/>
-                                                <Button fx:id="premium_coffee" disable="true" layoutX="118.0"
-                                                        layoutY="229.0" mnemonicParsing="false"
-                                                        onAction="#premium_coffee_Clicked" prefHeight="30.0"
-                                                        prefWidth="88.0" text="700"/>
-                                                <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="50.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../image/water.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="189.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../image/coffee.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="332.0"
-                                                           layoutY="9.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../image/sportsdrink.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="263.0"
-                                                           layoutY="136.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../image/soda.png"/>
-                                                    </image>
-                                                </ImageView>
-                                                <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="118.0"
-                                                           layoutY="136.0" pickOnBounds="true" preserveRatio="true">
-                                                    <image>
-                                                        <Image url="@../../image/premiumcoffee.png"/>
-                                                    </image>
-                                                </ImageView>
-                                            </children>
-                                        </Pane>
-                                        <Pane prefHeight="200.0" prefWidth="200.0">
-                                            <children>
-                                                <Button fx:id="coin_10" disable="true" layoutX="3.0" layoutY="68.0"
-                                                        mnemonicParsing="false" onAction="#coinInsert_10"
-                                                        prefHeight="20.0" prefWidth="130.0" text="10 ₩ ">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                                <Button fx:id="coin_50" disable="true" layoutX="3.0" layoutY="91.0"
-                                                        mnemonicParsing="false" onAction="#coinInsert_50"
-                                                        prefHeight="0.0" prefWidth="130.0" text="50 ₩">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                                <Button fx:id="coin_100" disable="true" layoutX="3.0" layoutY="114.0"
-                                                        mnemonicParsing="false" onAction="#coinInsert_100"
-                                                        prefWidth="130.0" text="100 ₩">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                                <Button fx:id="coin_500" disable="true" layoutX="3.0" layoutY="137.0"
-                                                        mnemonicParsing="false" onAction="#coinInsert_500"
-                                                        prefWidth="130.0" text="500 ₩">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                                <Button fx:id="coin_1000" disable="true" layoutX="3.0" layoutY="160.0"
-                                                        mnemonicParsing="false" onAction="#coinInsert_1000"
-                                                        prefWidth="130.0" text="1000 ₩" textAlignment="CENTER">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                                <TextField fx:id="text_coin" alignment="CENTER" layoutX="3.0"
-                                                           layoutY="28.0" prefHeight="30.0" prefWidth="130.0"/>
-                                                <Text layoutX="36.0" layoutY="21.0" strokeType="OUTSIDE"
-                                                      strokeWidth="0.0" text="Coin Insert">
-                                                    <font>
-                                                        <Font size="14.0"/>
-                                                    </font>
-                                                </Text>
-                                                <Button fx:id="coin_return" disable="true" layoutX="3.0" layoutY="193.0"
-                                                        mnemonicParsing="false" onAction="#coinReturn" prefWidth="130.0"
-                                                        text="Coin Return" textAlignment="CENTER">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                                <Button fx:id="log_in" disable="true" layoutX="3.0" layoutY="231.0"
-                                                        mnemonicParsing="false" onAction="#login_btn" prefHeight="24.0"
-                                                        prefWidth="131.0" text="Admin Log In">
-                                                    <font>
-                                                        <Font size="10.0"/>
-                                                    </font>
-                                                </Button>
-                                            </children>
-                                        </Pane>
-                                    </children>
-                                </HBox>
-                            </children>
-                        </Pane>
-                        <Pane layoutY="264.0" prefHeight="38.0" prefWidth="600.0"/>
-                    </children>
-                </Pane>
-            </children>
-        </Pane>
-        <TextField fx:id="output" alignment="CENTER" editable="false" prefHeight="45.0" prefWidth="581.0"/>
-    </children>
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="vending_machine.controller.Main_Controller">
+   <children>
+      <Pane prefHeight="44.0" prefWidth="600.0">
+         <children>
+            <Label alignment="CENTER" layoutX="236.0" layoutY="14.0" prefHeight="17.0" prefWidth="123.0" text="Vending Machine" />
+         </children>
+      </Pane>
+      <Pane fx:id="contents_wrap">
+         <children>
+            <Pane fx:id="main_contents">
+               <children>
+                  <Pane layoutY="1.0" prefHeight="263.0" prefWidth="408.0">
+                     <children>
+                        <HBox layoutY="-1.0" prefHeight="265.0" prefWidth="600.0">
+                           <children>
+                              <Pane prefHeight="265.0" prefWidth="510.0">
+                                 <children>
+                                    <Button fx:id="water" disable="true" layoutX="50.0" layoutY="102.0" mnemonicParsing="false" onAction="#water_Clicked" prefHeight="30.0" prefWidth="88.0" text="450" />
+                                    <Button fx:id="sports_drink" disable="true" layoutX="332.0" layoutY="102.0" mnemonicParsing="false" onAction="#sports_drink_Clicked" prefHeight="30.0" prefWidth="88.0" text="550" />
+                                    <Button fx:id="coffee" disable="true" layoutX="189.0" layoutY="102.0" mnemonicParsing="false" onAction="#coffee_Clicked" prefHeight="30.0" prefWidth="88.0" text="500" />
+                                    <Button fx:id="soda" disable="true" layoutX="263.0" layoutY="229.0" mnemonicParsing="false" onAction="#soda_Clicked" prefHeight="30.0" prefWidth="88.0" text="750" />
+                                    <Button fx:id="premium_coffee" disable="true" layoutX="118.0" layoutY="229.0" mnemonicParsing="false" onAction="#premium_coffee_Clicked" prefHeight="30.0" prefWidth="88.0" text="700" />
+                                    <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="50.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../image/water.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="189.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../image/coffee.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="332.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../image/sportsdrink.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="263.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../image/soda.png" />
+                                       </image>
+                                    </ImageView>
+                                    <ImageView fitHeight="88.0" fitWidth="117.0" layoutX="118.0" layoutY="136.0" pickOnBounds="true" preserveRatio="true">
+                                       <image>
+                                          <Image url="@../../image/premiumcoffee.png" />
+                                       </image>
+                                    </ImageView>
+                                 </children>
+                              </Pane>
+                              <Pane prefHeight="200.0" prefWidth="200.0">
+                                 <children>
+                                    <Button fx:id="coin_10" disable="true" layoutX="3.0" layoutY="68.0" mnemonicParsing="false" onAction="#coinInsert_10" prefHeight="20.0" prefWidth="130.0" text="10 ₩ ">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="coin_50" disable="true" layoutX="3.0" layoutY="91.0" mnemonicParsing="false" onAction="#coinInsert_50" prefHeight="0.0" prefWidth="130.0" text="50 ₩">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="coin_100" disable="true" layoutX="3.0" layoutY="114.0" mnemonicParsing="false" onAction="#coinInsert_100" prefWidth="130.0" text="100 ₩">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="coin_500" disable="true" layoutX="3.0" layoutY="137.0" mnemonicParsing="false" onAction="#coinInsert_500" prefWidth="130.0" text="500 ₩">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="coin_1000" disable="true" layoutX="3.0" layoutY="160.0" mnemonicParsing="false" onAction="#coinInsert_1000" prefWidth="130.0" text="1000 ₩" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <TextField fx:id="text_coin" alignment="CENTER" layoutX="3.0" layoutY="28.0" prefHeight="30.0" prefWidth="130.0" />
+                                    <Text layoutX="36.0" layoutY="21.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Coin Insert">
+                                       <font>
+                                          <Font size="14.0" />
+                                       </font>
+                                    </Text>
+                                    <Button fx:id="coin_return" disable="true" layoutX="3.0" layoutY="193.0" mnemonicParsing="false" onAction="#coinReturn" prefWidth="130.0" text="Coin Return" textAlignment="CENTER">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                    <Button fx:id="log_in" disable="true" layoutX="3.0" layoutY="231.0" mnemonicParsing="false" onAction="#login_btn" prefHeight="24.0" prefWidth="131.0" text="Admin Log In">
+                                       <font>
+                                          <Font size="10.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </Pane>
+                           </children>
+                        </HBox>
+                     </children>
+                  </Pane>
+                  <Pane layoutY="264.0" prefHeight="38.0" prefWidth="600.0" />
+               </children>
+            </Pane>
+         </children>
+      </Pane>
+      <TextField fx:id="output" alignment="CENTER" editable="false" prefHeight="45.0" prefWidth="581.0" />
+   </children>
 </VBox>
