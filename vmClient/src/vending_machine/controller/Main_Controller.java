@@ -45,7 +45,7 @@ public class Main_Controller {
     boolean premium_coffee_is_soldOut;
     boolean soda_is_soldOut;
 
-    Integer total_coins = 0;
+    static Integer total_coins = 0;
 
 
     // FXML 변수 -------------------------------------

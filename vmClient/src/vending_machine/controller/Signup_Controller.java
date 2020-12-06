@@ -72,6 +72,7 @@ public class Signup_Controller {
         } else {
             System.out.println("fail");
         }
+        Main_Controller.new_stage("admin_ui","Admin");
     }
 
     // 비밀번호 유효성 검사하는 메소드
