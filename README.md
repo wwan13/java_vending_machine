@@ -16,8 +16,3 @@
 - Compiler : intelli J
 - Language : Java
 
-# Todo
-
-- ass
-
-- ass
