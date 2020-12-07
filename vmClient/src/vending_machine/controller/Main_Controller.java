@@ -15,13 +15,10 @@ import vending_machine.model.data_structure.Queue;
 import vending_machine.model.data_structure.Stack;
 import vending_machine.model.Coin;
 
-import java.net.Socket;
 import java.util.ArrayList;
 
 
 public class Main_Controller {
-
-    Socket socket;
 
     static ArrayList<Coin> coins;
 
@@ -167,7 +164,7 @@ public class Main_Controller {
         water_stock.dequeue();
         total_coins -= 450;
         set_beverage_state();
-        beverage_stock_condition();
+//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -180,7 +177,7 @@ public class Main_Controller {
         coffee_stock.dequeue();
         total_coins -= 500;
         set_beverage_state();
-        beverage_stock_condition();
+//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -193,7 +190,7 @@ public class Main_Controller {
         sports_drink_stock.dequeue();
         total_coins -= 550;
         set_beverage_state();
-        beverage_stock_condition();
+//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -206,7 +203,7 @@ public class Main_Controller {
         premium_coffee_stock.dequeue();
         total_coins -= 700;
         set_beverage_state();
-        beverage_stock_condition();
+//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -219,7 +216,7 @@ public class Main_Controller {
         soda_stock.dequeue();
         total_coins -= 750;
         set_beverage_state();
-        beverage_stock_condition();
+//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -331,7 +328,7 @@ public class Main_Controller {
         if (total_coins >= 750) {
             soda.setDisable(false);
             soda.setText("750");
-            if (soda_is_soldOut) {
+            if (soda_stock.isEmpty()) {
                 soda.setDisable(true);
                 soda.setText("품절");
             }
@@ -342,7 +339,7 @@ public class Main_Controller {
         if (total_coins >= 700) {
             premium_coffee.setDisable(false);
             premium_coffee.setText("700");
-            if (premium_coffee_is_soldOut) {
+            if (premium_coffee_stock.isEmpty()) {
                 premium_coffee.setDisable(true);
                 premium_coffee.setText("품절");
             }
@@ -353,7 +350,7 @@ public class Main_Controller {
         if (total_coins >= 550) {
             sports_drink.setDisable(false);
             sports_drink.setText("550");
-            if (sports_drink_is_soldOut) {
+            if (sports_drink_stock.isEmpty()) {
                 sports_drink.setDisable(true);
                 sports_drink.setText("품절");
             }
@@ -364,7 +361,7 @@ public class Main_Controller {
         if (total_coins >= 500) {
             coffee.setDisable(false);
             coffee.setText("500");
-            if (coffee_is_soldOut) {
+            if (coffee_stock.isEmpty()) {
                 coffee.setDisable(true);
                 coffee.setText("품절");
             }
@@ -375,7 +372,7 @@ public class Main_Controller {
         if (total_coins >= 450) {
             water.setDisable(false);
             water.setText("450");
-            if (water_is_soldOut) {
+            if (water_stock.isEmpty()) {
                 water.setDisable(true);
                 water.setText("품절");
             }

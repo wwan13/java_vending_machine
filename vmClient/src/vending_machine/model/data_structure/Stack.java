@@ -17,9 +17,11 @@ class stackNode {
 // 스택 자료구조
 public class Stack {
     stackNode top;
+    public Integer length;
 
     public Stack() {
         this.top = null;
+        this.length=0;
     }
 
     // 스택이 비어있는지 아닌지 검사하는 메소드
@@ -36,6 +38,7 @@ public class Stack {
         stackNode node = new stackNode(data);
         node.link = top;
         top = node;
+        length++;
     }
 
     // 스택에서 top에 있는 값을 반환하는 메소드
@@ -51,6 +54,7 @@ public class Stack {
     public Coin stackPop() {
         Coin data = stackPeek();
         top = top.link;
+        length--;
         return data;
     }
 }
