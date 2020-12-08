@@ -15,6 +15,7 @@ import vending_machine.model.data_structure.Queue;
 import vending_machine.model.data_structure.Stack;
 import vending_machine.model.Coin;
 
+import java.io.*;
 import java.util.ArrayList;
 
 
@@ -35,12 +36,6 @@ public class Main_Controller {
     static Queue sports_drink_stock;
     static Queue premium_coffee_stock;
     static Queue soda_stock;
-
-    boolean water_is_soldOut;
-    boolean coffee_is_soldOut;
-    boolean sports_drink_is_soldOut;
-    boolean premium_coffee_is_soldOut;
-    boolean soda_is_soldOut;
 
     static Integer total_coins = 0;
 
@@ -164,7 +159,6 @@ public class Main_Controller {
         water_stock.dequeue();
         total_coins -= 450;
         set_beverage_state();
-//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -177,7 +171,6 @@ public class Main_Controller {
         coffee_stock.dequeue();
         total_coins -= 500;
         set_beverage_state();
-//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -190,7 +183,6 @@ public class Main_Controller {
         sports_drink_stock.dequeue();
         total_coins -= 550;
         set_beverage_state();
-//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -203,7 +195,6 @@ public class Main_Controller {
         premium_coffee_stock.dequeue();
         total_coins -= 700;
         set_beverage_state();
-//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -216,7 +207,6 @@ public class Main_Controller {
         soda_stock.dequeue();
         total_coins -= 750;
         set_beverage_state();
-//        beverage_stock_condition();
         display_set_coin();
         can_insert_additional_coin();
         can_insert_1000();
@@ -224,7 +214,7 @@ public class Main_Controller {
         output.setText("soda");
     }
 
-    // 동전 입력 버
+    // 동전 입력 버튼
 
     @FXML
     public void coinInsert_10(ActionEvent event) {
@@ -232,7 +222,6 @@ public class Main_Controller {
         total_coins += 10;
         display_set_coin();
         set_beverage_state();
-        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -245,7 +234,6 @@ public class Main_Controller {
         total_coins += 50;
         display_set_coin();
         set_beverage_state();
-        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -258,7 +246,6 @@ public class Main_Controller {
         total_coins += 100;
         display_set_coin();
         set_beverage_state();
-        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -271,7 +258,6 @@ public class Main_Controller {
         total_coins += 500;
         display_set_coin();
         set_beverage_state();
-        beverage_stock_condition();
         return_button_condition();
         can_insert_additional_coin();
         can_insert_1000();
@@ -284,7 +270,6 @@ public class Main_Controller {
         total_coins += 1000;
         display_set_coin();
         set_beverage_state();
-        beverage_stock_condition();
         return_button_condition();
         can_insert_1000();
         can_insert_additional_coin();
@@ -481,66 +466,6 @@ public class Main_Controller {
         }
     }
 
-    // 음료의 재고 상태를 확인하는 메소드
-    public void beverage_stock_condition() {
-        if (water_stock.length() == 0) {
-            Platform.runLater(() -> {
-                water.setText("품절");
-                water.setDisable(true);
-            });
-        } else {
-            Platform.runLater(() -> {
-                water.setText("450");
-                water.setDisable(false);
-            });
-        }
-        if (coffee_stock.length() == 0) {
-            coffee.setText("품절");
-            coffee.setDisable(true);
-            Platform.runLater(() -> {
-                water.setText("450");
-                water.setDisable(false);
-            });
-        } else {
-            Platform.runLater(() -> {
-                coffee.setText("500");
-                coffee.setDisable(false);
-            });
-        }
-        if (sports_drink_stock.length() == 0) {
-            Platform.runLater(() -> {
-                sports_drink.setText("품절");
-                sports_drink.setDisable(true);
-            });
-        } else {
-            Platform.runLater(() -> {
-                sports_drink.setText("550");
-                sports_drink.setDisable(false);
-            });
-        }
-        if (premium_coffee_stock.length() == 0) {
-            Platform.runLater(() -> {
-                premium_coffee.setText("품절");
-                premium_coffee.setDisable(true);
-            });
-        } else {
-            Platform.runLater(() -> {
-                premium_coffee.setText("450");
-                premium_coffee.setDisable(false);
-            });
-        }
-        if (soda_stock.length() == 0) {
-            Platform.runLater(() -> {
-                soda.setText("품절");
-                soda.setDisable(true);
-            });
-        } else {
-            Platform.runLater(() -> {
-                soda.setText("450");
-                soda.setDisable(false);
-            });
-        }
-    }
 
     static public void new_stage(String name, String title) {
         FXMLLoader loader = new FXMLLoader(Main_Controller.class.getResource("../view/" + name + ".fxml"));
@@ -553,6 +478,20 @@ public class Main_Controller {
             stage.setScene(new Scene(root));
             stage.setResizable(false);
             stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void write_file(String filename, String message) {
+        String filepath = String.format(Main_Controller.class.getResource("").getPath() + "../data_files/"+filename+".txt");
+        File file = new File(filepath);
+
+        try (
+                FileWriter fw = new FileWriter(file);
+                BufferedWriter bw = new BufferedWriter(fw);
+        ) {
+            bw.append(message);
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -3,10 +3,14 @@ package vending_machine.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import vending_machine.model.Beverage;
 import vending_machine.model.Coin;
+
+import java.awt.*;
+import java.time.LocalDate;
 
 
 public class Admin_Controller {
@@ -35,6 +39,12 @@ public class Admin_Controller {
     public TextField change_500;
     @FXML
     public TextField change_1000;
+    // 날자
+    @FXML
+    public DatePicker start_date;
+    @FXML
+    public DatePicker finish_date;
+
 
     // fxml 초기화
     public void initialize() {
@@ -126,5 +136,13 @@ public class Admin_Controller {
     public void add_1000(ActionEvent event) {
         Main_Controller.change_1000.stackPush(new Coin(1000));
         change_1000.setText(Main_Controller.change_1000.length.toString());
+    }
+
+    @FXML
+    public void show_rate(ActionEvent event) {
+        String startDate = start_date.getValue().toString();
+        String finishDate = finish_date.getValue().toString();
+        System.out.println(startDate + "+" +finishDate);
+
     }
 }
