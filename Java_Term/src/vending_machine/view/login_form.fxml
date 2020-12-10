@@ -26,7 +26,8 @@
          </font>
       </Label>
       <PasswordField fx:id="lf_pw_box" layoutX="106.0" layoutY="131.0" prefHeight="27.0" prefWidth="214.0" />
-      <Button fx:id="lf_login" disable="true" layoutX="74.0" layoutY="186.0" mnemonicParsing="false" onAction="#lf_login_btn" prefHeight="27.0" prefWidth="247.0" text="Log In" />
-      <Button layoutX="74.0" layoutY="223.0" mnemonicParsing="false" onAction="#lf_signup_btn" prefHeight="27.0" prefWidth="247.0" text="Sign Up" />
+      <Button fx:id="lf_login" layoutX="74.0" layoutY="186.0" mnemonicParsing="false" onAction="#lf_login_btn" prefHeight="27.0" prefWidth="247.0" text="Log In" />
+      <Button fx:id="lf_signup" layoutX="74.0" layoutY="223.0" mnemonicParsing="false" onAction="#lf_signup_btn" prefHeight="27.0" prefWidth="247.0" text="Sign Up" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#go_back_btn" prefHeight="21.0" prefWidth="39.0" text=" ← " />
    </children>
 </Pane>

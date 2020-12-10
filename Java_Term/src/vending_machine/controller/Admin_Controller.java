@@ -3,13 +3,16 @@ package vending_machine.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import vending_machine.model.Beverage;
 import vending_machine.model.Coin;
 
+import javax.security.sasl.AuthorizeCallback;
 import java.awt.*;
+import java.io.BufferedWriter;
 import java.time.LocalDate;
 
 
@@ -44,6 +47,8 @@ public class Admin_Controller {
     public DatePicker start_date;
     @FXML
     public DatePicker finish_date;
+    @FXML
+    public Button go_back;
 
 
     // fxml 초기화
@@ -144,5 +149,11 @@ public class Admin_Controller {
         String finishDate = finish_date.getValue().toString();
         System.out.println(startDate + "+" +finishDate);
 
+    }
+
+    @FXML
+    public void go_back_btn(ActionEvent event) {
+        Main_Controller.exit_stage(go_back);
+        Main_Controller.new_stage("MainUI","Vending Machine");
     }
 }

@@ -27,9 +27,6 @@ public class Signup_Controller {
     @FXML
     public Button sf_signup;
 
-    @FXML
-    public TextField popup_text;
-
     private Boolean can_signup = false;
 
 
@@ -40,22 +37,24 @@ public class Signup_Controller {
         String userInfo;
         String ID;
 
-        String current_ID = sf_id_box.getText();
+        String input_ID = sf_id_box.getText();
 
         try (
                 FileReader fr = new FileReader(file);
                 BufferedReader bw = new BufferedReader(fr);
         ) {
+            if(input_ID.isEmpty()) {
+                Main_Controller.popup("아이디를 입력하시오.");
+            }
             while ((userInfo = bw.readLine()) != null) {
                 ID = userInfo.split(" ")[0];
-                System.out.println(ID);
-                if (current_ID.equals(ID) || ID.length() == 0) {
-                    sf_confirm.setText("사용불가");
+                if (input_ID.equals(ID)) {
+                    Main_Controller.popup("이미 존재하는 아이디 입니다.");
                     sf_id_box.setText("");
                     can_signup = false;
                     break;
                 }
-                sf_confirm.setText("사용가능");
+                Main_Controller.popup("사용 가능한 아이디 입니다.");
                 sf_signup.setDisable(false);
                 can_signup = true;
             }
@@ -66,14 +65,27 @@ public class Signup_Controller {
     }
 
     @FXML
-    public void sf_signup_btn(ActionEvent event) {
-        if (check_password(sf_pw_box.getText())) {
-            System.out.println("success");
+    public void sf_signup_btn(ActionEvent event) throws Exception {
+        String ID = sf_id_box.getText();
+        String PW = sf_pw_box.getText();
+        System.out.println(ID+" + " + PW);
+        if (check_password(PW)) {
+            Main_Controller.write_file("userInfo",String.format(ID + " " + PW));
+            Main_Controller.exit_stage(sf_signup);
+            Main_Controller.new_stage("login_form","login");
         } else {
-            System.out.println("fail");
+            Main_Controller.popup("사용 할 수 없는 비밀번호 입니다.");
+            sf_pw_box.setText("");
+            sf_pw_box.setStyle("-fx-border-color:#FF0000");
         }
-        Main_Controller.new_stage("admin_ui","Admin");
     }
+
+    @FXML
+    public void go_back_btn(ActionEvent event) {
+        Main_Controller.exit_stage(sf_signup);
+        Main_Controller.new_stage("login_form","login");
+    }
+
 
     // 비밀번호 유효성 검사하는 메소드
     private boolean check_password(String password) {

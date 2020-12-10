@@ -33,5 +33,6 @@
          </font></Button>
       <Label layoutX="106.0" layoutY="163.0" text="* 비밀번호는 영문과 숫자 특수문자를 포함한  " textFill="RED" />
       <Label layoutX="115.0" layoutY="179.0" text="8자리 이상으로 구성 되어야 합니다" textFill="RED" />
+      <Button layoutX="14.0" layoutY="14.0" mnemonicParsing="false" onAction="#go_back_btn" prefHeight="21.0" prefWidth="39.0" text=" ← " />
    </children>
 </Pane>

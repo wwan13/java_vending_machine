@@ -39,6 +39,8 @@ public class Main_Controller {
 
     static Integer total_coins = 0;
 
+    static Boolean can_init = true;
+
 
     // FXML 변수 -------------------------------------
 
@@ -90,9 +92,14 @@ public class Main_Controller {
         coin_500.setDisable(false);
         coin_1000.setDisable(false);
         log_in.setDisable(false);
-        coins = new ArrayList<Coin>();
-        init_Beverage();
+        if(can_init==true) {
+            coins = new ArrayList<Coin>();
+            init_Beverage();
+            can_init = false;
+        }
         set_beverage_state();
+        can_insert_additional_coin();
+        can_insert_1000();
     }
 
     // 거스름돈을 각각 3개 씩으로 초기화 하는 함수
@@ -292,6 +299,7 @@ public class Main_Controller {
     // 로그인 동작 버트
     @FXML
     public void login_btn(ActionEvent event) {
+        exit_stage(log_in);
         new_stage("login_form", "login");
     }
 
@@ -319,6 +327,9 @@ public class Main_Controller {
             }
         } else {
             soda.setDisable(true);
+            if (soda_stock.isEmpty()) {
+                soda.setText("품절");
+            }
         }
 
         if (total_coins >= 700) {
@@ -330,6 +341,9 @@ public class Main_Controller {
             }
         } else {
             premium_coffee.setDisable(true);
+            if (premium_coffee_stock.isEmpty()) {
+                premium_coffee.setText("품절");
+            }
         }
 
         if (total_coins >= 550) {
@@ -341,6 +355,9 @@ public class Main_Controller {
             }
         } else {
             sports_drink.setDisable(true);
+            if (sports_drink_stock.isEmpty()) {
+                sports_drink.setText("품절");
+            }
         }
 
         if (total_coins >= 500) {
@@ -352,6 +369,9 @@ public class Main_Controller {
             }
         } else {
             coffee.setDisable(true);
+            if (coffee_stock.isEmpty()) {
+                coffee.setText("품절");
+            }
         }
 
         if (total_coins >= 450) {
@@ -363,6 +383,9 @@ public class Main_Controller {
             }
         } else {
             water.setDisable(true);
+            if (water_stock.isEmpty()) {
+                water.setText("품절");
+            }
         }
     }
 
@@ -467,6 +490,13 @@ public class Main_Controller {
     }
 
 
+    // 모든 컨트롤러들에서 공통적으로 사용하는 메소드
+    static public void exit_stage(Button btn) {
+        Stage stage = (Stage)btn.getScene().getWindow();
+        stage.close();
+    }
+
+
     static public void new_stage(String name, String title) {
         FXMLLoader loader = new FXMLLoader(Main_Controller.class.getResource("../view/" + name + ".fxml"));
         Parent root;
@@ -483,7 +513,21 @@ public class Main_Controller {
         }
     }
 
-    public void write_file(String filename, String message) {
+    static public void popup(String message) throws Exception {
+        FXMLLoader loader = new FXMLLoader();
+        loader.setLocation(Main_Controller.class.getResource("../view/popup.fxml"));
+        Parent root = (Parent) loader.load();
+        Scene scene = new Scene(root);
+
+        Popup_Controller pop = loader.getController();
+        pop.init_popup(message);
+
+        Stage stage = new Stage();
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    static public void write_file(String filename, String message) {
         String filepath = String.format(Main_Controller.class.getResource("").getPath() + "../data_files/"+filename+".txt");
         File file = new File(filepath);
 
@@ -491,7 +535,9 @@ public class Main_Controller {
                 FileWriter fw = new FileWriter(file);
                 BufferedWriter bw = new BufferedWriter(fw);
         ) {
-            bw.append(message);
+            bw.write(message);
+            bw.newLine();
+            bw.flush();
         } catch (Exception e) {
             e.printStackTrace();
         }
