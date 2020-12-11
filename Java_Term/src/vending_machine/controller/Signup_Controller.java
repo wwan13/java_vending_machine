@@ -9,6 +9,7 @@ import javafx.scene.control.TextField;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -23,7 +24,6 @@ public class Signup_Controller {
     @FXML
     public Button sf_signup;
 
-    private Boolean can_signup = false;
 
 
     @FXML
@@ -49,14 +49,11 @@ public class Signup_Controller {
                 if (input_ID.equals(ID)) {
                     Main_Controller.popup("이미 존재하는 아이디 입니다.");
                     sf_id_box.setText("");
-                    can_signup = false;
                     return;
                 }
             }
             Main_Controller.popup("사용 가능한 아이디 입니다.");
             sf_signup.setDisable(false);
-            can_signup = true;
-
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -96,5 +93,4 @@ public class Signup_Controller {
             return false;
         }
     }
-
 }

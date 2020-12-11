@@ -164,6 +164,8 @@ public class Main_Controller {
 
     @FXML
     public void water_Clicked(ActionEvent event) {
+        Date current_date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         water_stock.dequeue();
         total_coins -= 450;
         set_beverage_state();
@@ -172,15 +174,16 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("water");
+        write_file("Beverage.txt","water:"+dateFormat.format(current_date)+":450");
         if(water_stock.isEmpty()) {
-            Date current_date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             write_file("soldout.txt", "water : " + dateFormat.format(current_date));
         }
     }
 
     @FXML
     public void coffee_Clicked(ActionEvent event) {
+        Date current_date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         coffee_stock.dequeue();
         total_coins -= 500;
         set_beverage_state();
@@ -189,15 +192,16 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("coffee");
+        write_file("Beverage.txt","coffee:"+dateFormat.format(current_date)+":500");
         if(water_stock.isEmpty()) {
-            Date current_date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             write_file("soldout.txt", "coffee : " + dateFormat.format(current_date));
         }
     }
 
     @FXML
     public void sports_drink_Clicked(ActionEvent event) {
+        Date current_date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         sports_drink_stock.dequeue();
         total_coins -= 550;
         set_beverage_state();
@@ -206,15 +210,16 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("sports drink");
+        write_file("Beverage.txt","sports drink:"+dateFormat.format(current_date)+":550");
         if(water_stock.isEmpty()) {
-            Date current_date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             write_file("soldout.txt", "sports drink : " + dateFormat.format(current_date));
         }
     }
 
     @FXML
     public void premium_coffee_Clicked(ActionEvent event) {
+        Date current_date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         premium_coffee_stock.dequeue();
         total_coins -= 700;
         set_beverage_state();
@@ -223,15 +228,16 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("premium coffee");
+        write_file("Beverage.txt","premium coffee:"+dateFormat.format(current_date)+":700");
         if(water_stock.isEmpty()) {
-            Date current_date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
             write_file("soldout.txt","premium coffee : " + dateFormat.format(current_date));
         }
     }
 
     @FXML
     public void soda_Clicked(ActionEvent event) {
+        Date current_date = new Date();
+        SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
         soda_stock.dequeue();
         total_coins -= 750;
         set_beverage_state();
@@ -240,10 +246,9 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("soda");
+        write_file("Beverage.txt","soda:"+dateFormat.format(current_date)+":750");
         if(water_stock.isEmpty()) {
-            Date current_date = new Date();
-            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-            write_file("soldout.txt", ":soda : " + dateFormat.format(current_date));
+            write_file("soldout.txt", "soda : " + dateFormat.format(current_date));
         }
     }
 

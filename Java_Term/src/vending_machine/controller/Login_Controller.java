@@ -4,10 +4,14 @@ import javafx.event.ActionEvent;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXML;
+import javafx.scene.text.Text;
 
 import java.io.*;
 
 public class Login_Controller {
+
+    static String userID;
+    static String userPW;
 
     @FXML
     public Button lf_login;
@@ -39,6 +43,8 @@ public class Login_Controller {
 
             while((temp = bw.readLine()) != null) {
                 if(temp.split(" ")[0].equals(input_ID) && temp.split(" ")[1].equals(input_PW)) {
+                    userID = input_ID;
+                    userPW = input_PW;
                     Main_Controller.exit_stage(lf_login);
                     Main_Controller.new_stage("admin_ui","admin");
                     return;

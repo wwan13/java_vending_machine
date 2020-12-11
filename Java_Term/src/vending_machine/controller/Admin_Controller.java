@@ -3,22 +3,18 @@ package vending_machine.controller;
 import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.chart.LineChart;
+import javafx.scene.chart.XYChart;
+import javafx.scene.control.*;
 import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
-import javafx.scene.text.Text;
 import vending_machine.model.Beverage;
 import vending_machine.model.Coin;
 
-import javax.security.sasl.AuthorizeCallback;
-import java.awt.*;
 import java.io.BufferedReader;
-import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileReader;
-import java.time.LocalDate;
-
 
 public class Admin_Controller {
 
@@ -46,16 +42,22 @@ public class Admin_Controller {
     public TextField change_500;
     @FXML
     public TextField change_1000;
-    // 날자
+
     @FXML
-    public DatePicker start_date;
+    public TextField ID;
     @FXML
-    public DatePicker finish_date;
+    public PasswordField PW;
+
     @FXML
     public Button go_back;
 
     @FXML
     public TextArea soldout;
+
+    @FXML
+    public LineChart<String,Integer> line_chart;
+
+    XYChart.Series series;
 
 
     // fxml 초기화
@@ -77,6 +79,10 @@ public class Admin_Controller {
         change_100.setText(Main_Controller.change_100.length.toString());
         change_500.setText(Main_Controller.change_500.length.toString());
         change_1000.setText(Main_Controller.change_1000.length.toString());
+
+        // ID PW
+        ID.setText(Login_Controller.userID);
+//        PW.setText(Login_Controller.userPW);
 
         init_soldout();
     }
@@ -154,16 +160,18 @@ public class Admin_Controller {
 
     @FXML
     public void show_rate(ActionEvent event) {
-        String startDate = start_date.getValue().toString();
-        String finishDate = finish_date.getValue().toString();
-        System.out.println(startDate + "+" +finishDate);
-
+        init_chart();
     }
 
     @FXML
     public void go_back_btn(ActionEvent event) {
         Main_Controller.exit_stage(go_back);
         Main_Controller.new_stage("MainUI","Vending Machine");
+    }
+
+    @FXML
+    public void change_PW(ActionEvent event) throws Exception {
+        Main_Controller.popup("비밀번호 변경이 완료되었습니다.");
     }
 
     void init_soldout() {
@@ -178,6 +186,47 @@ public class Admin_Controller {
             while ((message = bw.readLine()) != null) {
                 soldout.appendText(message+"\n");
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    void init_chart() {
+        Integer month;
+        Integer price;
+        String temp;
+
+        Integer monthly_rate[] = {0,0,0,0,0,0,0,0,0,0,0,0};
+
+        String filepath = String.format(Signup_Controller.class.getResource("").getPath() + "../data_files/Beverage.txt");
+        File file = new File(filepath);
+        try (
+                FileReader fr = new FileReader(file);
+                BufferedReader bw = new BufferedReader(fr);
+        ) {
+            while((temp = bw.readLine())!=null) {
+                month = Integer.parseInt(temp.split(":")[1].split("-")[1]);
+                price = Integer.parseInt(temp.split(":")[2]);
+                monthly_rate[month-1] += price;
+            }
+
+            series = new XYChart.Series<String,Integer>();
+            series.setName("월별 통계");
+            series.getData().add(new XYChart.Data("1" ,monthly_rate[0]));
+            series.getData().add(new XYChart.Data("2" ,monthly_rate[1]));
+            series.getData().add(new XYChart.Data("3" ,monthly_rate[2]));
+            series.getData().add(new XYChart.Data("4" ,monthly_rate[3]));
+            series.getData().add(new XYChart.Data("5" ,monthly_rate[4]));
+            series.getData().add(new XYChart.Data("6" ,monthly_rate[5]));
+            series.getData().add(new XYChart.Data("7" ,monthly_rate[6]));
+            series.getData().add(new XYChart.Data("8" ,monthly_rate[7]));
+            series.getData().add(new XYChart.Data("9" ,monthly_rate[8]));
+            series.getData().add(new XYChart.Data("10" ,monthly_rate[9]));
+            series.getData().add(new XYChart.Data("11" ,monthly_rate[10]));
+            series.getData().add(new XYChart.Data("12" ,monthly_rate[11]));
+
+            line_chart.getData().add(series);
+
         } catch (Exception e) {
             e.printStackTrace();
         }
