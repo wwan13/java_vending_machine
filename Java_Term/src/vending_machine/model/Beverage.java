@@ -11,14 +11,4 @@ public class Beverage {
         this.name = name;
         this.price = price;
     }
-
-    // 이 음료의 이름을 반환 해주는 메소드
-    public String getName() {
-        return this.name;
-    }
-
-    // 이 음료의 가격을 반환 해주는 함수
-    public Integer getPrice() {
-        return this.price;
-    }
 }

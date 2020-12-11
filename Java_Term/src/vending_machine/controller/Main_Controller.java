@@ -1,6 +1,5 @@
 package vending_machine.controller;
 
-import javafx.application.Platform;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -23,6 +22,7 @@ import java.util.Date;
 
 public class Main_Controller {
 
+    // 입력받은 돈을 갖고 있는 배열
     static ArrayList<Coin> coins;
 
     // 거스름돈을 담고 있는 스택
@@ -297,8 +297,8 @@ public class Main_Controller {
         display_set_coin();
         set_beverage_state();
         return_button_condition();
-        can_insert_additional_coin();
         can_insert_1000();
+        can_insert_additional_coin();
         output.setText("");
     }
 
@@ -309,8 +309,8 @@ public class Main_Controller {
         display_set_coin();
         set_beverage_state();
         return_button_condition();
-        can_insert_1000();
         can_insert_additional_coin();
+        can_insert_1000();
         output.setText("");
     }
 
@@ -528,6 +528,7 @@ public class Main_Controller {
     }
 
 
+    // 새로운 화면을 띄워주는 메소드
     static public void new_stage(String name, String title) {
         FXMLLoader loader = new FXMLLoader(Main_Controller.class.getResource("../view/" + name + ".fxml"));
         Parent root;
@@ -544,6 +545,7 @@ public class Main_Controller {
         }
     }
 
+    // 팝업창을 띄워주는 메소드
     static public void popup(String message) throws Exception {
         FXMLLoader loader = new FXMLLoader();
         loader.setLocation(Main_Controller.class.getResource("../view/popup.fxml"));
