@@ -2,13 +2,9 @@ package vending_machine.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.fxml.FXMLLoader;
-import javafx.scene.Parent;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
-import javafx.stage.Stage;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -32,7 +28,7 @@ public class Signup_Controller {
 
     @FXML
     public void sf_confirm_btn(ActionEvent event) {
-        String filepath = String.format(Login_Controller.class.getResource("").getPath() + "../data_files/userInfo.txt");
+        String filepath = String.format(Signup_Controller.class.getResource("").getPath() + "../data_files/userInfo.txt");
         File file = new File(filepath);
         String userInfo;
         String ID;
@@ -45,19 +41,21 @@ public class Signup_Controller {
         ) {
             if(input_ID.isEmpty()) {
                 Main_Controller.popup("아이디를 입력하시오.");
+                return;
             }
             while ((userInfo = bw.readLine()) != null) {
+                System.out.println(userInfo);
                 ID = userInfo.split(" ")[0];
                 if (input_ID.equals(ID)) {
                     Main_Controller.popup("이미 존재하는 아이디 입니다.");
                     sf_id_box.setText("");
                     can_signup = false;
-                    break;
+                    return;
                 }
-                Main_Controller.popup("사용 가능한 아이디 입니다.");
-                sf_signup.setDisable(false);
-                can_signup = true;
             }
+            Main_Controller.popup("사용 가능한 아이디 입니다.");
+            sf_signup.setDisable(false);
+            can_signup = true;
 
         } catch (Exception e) {
             e.printStackTrace();
@@ -70,7 +68,7 @@ public class Signup_Controller {
         String PW = sf_pw_box.getText();
         System.out.println(ID+" + " + PW);
         if (check_password(PW)) {
-            Main_Controller.write_file("userInfo",String.format(ID + " " + PW));
+            Main_Controller.write_file("userInfo.txt",String.format(ID + " " + PW));
             Main_Controller.exit_stage(sf_signup);
             Main_Controller.new_stage("login_form","login");
         } else {

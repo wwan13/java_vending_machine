@@ -16,7 +16,9 @@ import vending_machine.model.data_structure.Stack;
 import vending_machine.model.Coin;
 
 import java.io.*;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 
 public class Main_Controller {
@@ -41,8 +43,7 @@ public class Main_Controller {
 
     static Boolean can_init = true;
 
-
-    // FXML 변수 -------------------------------------
+// FXML 변수 -------------------------------------
 
     // main
     @FXML
@@ -171,6 +172,11 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("water");
+        if(water_stock.isEmpty()) {
+            Date current_date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            write_file("soldout.txt", "water : " + dateFormat.format(current_date));
+        }
     }
 
     @FXML
@@ -183,6 +189,11 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("coffee");
+        if(water_stock.isEmpty()) {
+            Date current_date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            write_file("soldout.txt", "coffee : " + dateFormat.format(current_date));
+        }
     }
 
     @FXML
@@ -195,6 +206,11 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("sports drink");
+        if(water_stock.isEmpty()) {
+            Date current_date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            write_file("soldout.txt", "sports drink : " + dateFormat.format(current_date));
+        }
     }
 
     @FXML
@@ -207,6 +223,11 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("premium coffee");
+        if(water_stock.isEmpty()) {
+            Date current_date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            write_file("soldout.txt","premium coffee : " + dateFormat.format(current_date));
+        }
     }
 
     @FXML
@@ -219,6 +240,11 @@ public class Main_Controller {
         can_insert_1000();
         return_button_condition();
         output.setText("soda");
+        if(water_stock.isEmpty()) {
+            Date current_date = new Date();
+            SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            write_file("soldout.txt", ":soda : " + dateFormat.format(current_date));
+        }
     }
 
     // 동전 입력 버튼
@@ -528,11 +554,11 @@ public class Main_Controller {
     }
 
     static public void write_file(String filename, String message) {
-        String filepath = String.format(Main_Controller.class.getResource("").getPath() + "../data_files/"+filename+".txt");
+        String filepath = String.format(Main_Controller.class.getResource("").getPath() + "../data_files/"+filename);
         File file = new File(filepath);
 
         try (
-                FileWriter fw = new FileWriter(file);
+                FileWriter fw = new FileWriter(file,true);
                 BufferedWriter bw = new BufferedWriter(fw);
         ) {
             bw.write(message);
@@ -542,5 +568,4 @@ public class Main_Controller {
             e.printStackTrace();
         }
     }
-
 }

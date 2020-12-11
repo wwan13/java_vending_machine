@@ -5,6 +5,7 @@ import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
 import javafx.scene.control.DatePicker;
+import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.text.Text;
 import vending_machine.model.Beverage;
@@ -12,7 +13,10 @@ import vending_machine.model.Coin;
 
 import javax.security.sasl.AuthorizeCallback;
 import java.awt.*;
+import java.io.BufferedReader;
 import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileReader;
 import java.time.LocalDate;
 
 
@@ -50,6 +54,9 @@ public class Admin_Controller {
     @FXML
     public Button go_back;
 
+    @FXML
+    public TextArea soldout;
+
 
     // fxml 초기화
     public void initialize() {
@@ -70,6 +77,8 @@ public class Admin_Controller {
         change_100.setText(Main_Controller.change_100.length.toString());
         change_500.setText(Main_Controller.change_500.length.toString());
         change_1000.setText(Main_Controller.change_1000.length.toString());
+
+        init_soldout();
     }
 
     // 잔고 반환하는 메소드
@@ -155,5 +164,22 @@ public class Admin_Controller {
     public void go_back_btn(ActionEvent event) {
         Main_Controller.exit_stage(go_back);
         Main_Controller.new_stage("MainUI","Vending Machine");
+    }
+
+    void init_soldout() {
+        String filepath = String.format(Signup_Controller.class.getResource("").getPath() + "../data_files/soldout.txt");
+        File file = new File(filepath);
+        String message;
+
+        try (
+                FileReader fr = new FileReader(file);
+                BufferedReader bw = new BufferedReader(fr);
+        ) {
+            while ((message = bw.readLine()) != null) {
+                soldout.appendText(message+"\n");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }
